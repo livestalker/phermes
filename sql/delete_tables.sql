@@ -1,0 +1,1 @@
+DROP TABLE track_history, devices, users_profile, cash_history, users;
