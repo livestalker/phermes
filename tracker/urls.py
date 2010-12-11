@@ -6,6 +6,7 @@ from pgermes.tracker.views import login
 from pgermes.tracker.views import logout
 from pgermes.tracker.views import signup
 from pgermes.tracker.views import tracker
+from pgermes.tracker.views import list_devices
 
 urlpatterns = patterns('',
 
@@ -17,6 +18,9 @@ urlpatterns = patterns('',
 
     # tracker main urls
     (r'^$', tracker),           # main window of application
+
+    # tracker AJAX urls
+    (r'^list/$', list_devices),          # get list of devices
 
     # static files
     (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),

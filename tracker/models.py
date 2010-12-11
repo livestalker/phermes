@@ -15,16 +15,23 @@ from django.db import models
 # ts_time   - last time of request
 
 class Device(models.Model):
-    device_id = models.AutoField(primary_key=True)
-    user_id   = models.ForeignKey(User, db_column='user_id')
+    device_id = models.AutoField(primary_key=True, verbose_name='ID')
+    user_id   = models.ForeignKey(User, db_column='user_id', verbose_name='User ID')
     type      = models.CharField(max_length=30)
-    imei      = models.CharField(max_length=30)
+    imei      = models.CharField(max_length=30, verbose_name = 'IMEI')
     name      = models.CharField(max_length=30)
     text      = models.CharField(max_length=255)
-    long      = models.FloatField()
-    lat       = models.FloatField()
-    ts_time   = models.DateTimeField(auto_now=True)
+    long      = models.FloatField(verbose_name = 'Longitude')
+    lat       = models.FloatField(verbose_name = 'Latitude')
+    ts_time   = models.DateTimeField(verbose_name = 'Last time request')
 
-
-
-
+# history of move object
+# device_id - ID device
+# long      - logitude
+# lat       - latitude
+# ts_time   - time stamp
+class Track(models.Model):
+    device_id = models.ForeignKey(User, db_column='device_id', verbose_name='Device ID')
+    long      = models.FloatField(verbose_name = 'Longitude')
+    lat       = models.FloatField(verbose_name = 'Latitude')
+    ts_time   = models.DateTimeField(verbose_name = 'Time stamp')

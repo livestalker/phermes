@@ -1,4 +1,4 @@
-INSERT INTO `track_history` (`device_id`, `longitude`, `latitude`, `ts_time`) VALUES
+INSERT INTO `tracker_track` (`device_id`, `long`, `lat`, `ts_time`) VALUES
 (1, 49.639999, 58.595589, '2010-09-03 09:14:26'),
 (1, 49.644763, 58.595701, '2010-09-03 09:14:27'),
 (1, 49.6506,   58.595746, '2010-09-03 09:14:28'),

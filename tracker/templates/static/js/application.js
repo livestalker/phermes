@@ -84,13 +84,13 @@ Application.GridDevices = Ext.extend(Ext.grid.GridPanel, {
                 // config of store
                 proxy : new Ext.data.HttpProxy({
                     method: 'POST',
-                    url: '/tracker/list'
+                    url: '/tracker/list/'
                 }),
                 autoDestroy: true,
                 autoLoad: false,
                 storeId: 'devicesStore',
                 // config of reader
-                fields: ['device_id', 'imei', 'name', 'text', 'longitude', 'latitude', 'ts_time']
+                fields: ['device_id', 'imei', 'name', 'text', 'long', 'lat', 'ts_time']
             }),
             updateTask: {
                 scope: this,
@@ -152,7 +152,7 @@ Application.DevicesPanel = Ext.extend(Ext.Panel, {
         + '</p>'
         + '<p class="details-info">'
         + 'Last position:<br>'
-        + 'Longitude: {longitude} Latitude: {latitude}<br>'
+        + 'Longitude: {long} Latitude: {lat}<br>'
         + 'Time: {ts_time}<br>'
         + '</p>'),
 
