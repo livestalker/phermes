@@ -84,7 +84,7 @@ Application.GridDevices = Ext.extend(Ext.grid.GridPanel, {
                 // config of store
                 proxy : new Ext.data.HttpProxy({
                     method: 'POST',
-                    url: '/tracker/list/'
+                    url: '/list/'
                 }),
                 autoDestroy: true,
                 autoLoad: false,

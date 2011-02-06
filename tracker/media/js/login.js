@@ -22,7 +22,7 @@ Ext.ns('Application');
 // LoginPanel component
 Application.LoginPanel = Ext.extend(Ext.FormPanel, {
     labelWidth:80,
-    url:'/tracker/login/',
+    url:'/login/',
     frame:true,
     title:'Please Login',
     defaultType:'textfield',

@@ -1,5 +1,4 @@
 # django imports
-from django.conf import settings
 from django.conf.urls.defaults import patterns
 from pgermes.tracker.views import account
 from pgermes.tracker.views import login
@@ -14,14 +13,11 @@ urlpatterns = patterns('',
     (r'^login/$', login),       # login in system
     (r'^logout/$', logout),     # exit from system
     (r'^account/$', account),   # account info
-    (r'^signup', signup),       # registration in system
+    (r'^signup/$', signup),     # registration in system
 
     # tracker main urls
-    (r'^$', tracker),           # main window of application
+    (r'^tracker/$', tracker),           # main window of application
 
     # tracker AJAX urls
     (r'^list/$', list_devices),          # get list of devices
-
-    # static files
-    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 )

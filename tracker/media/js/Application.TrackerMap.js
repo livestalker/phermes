@@ -36,10 +36,10 @@ Application.TrackerMap = Ext.extend(Object, {
             maxResolution: 'auto',
             controls: [
             new OpenLayers.Control.OverviewMap(),
-            new OpenLayers.Control.MousePosition(),
-            new OpenLayers.Control.Attribution(),
+            new OpenLayers.Control.MousePosition(),            
             new OpenLayers.Control.Navigation(),
-            new OpenLayers.Control.PanZoomBar()            
+            new OpenLayers.Control.PanZoomBar(),
+            new OpenLayers.Control.Attribution()
             ]
         };
         this.map = new OpenLayers.Map('map', options);

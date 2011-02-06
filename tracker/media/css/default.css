@@ -70,37 +70,6 @@ a:hover {
     width: 100%;
 }
 
-/*--------------- style of MAP controls --------------------*/
-
-/* olControlOverviewMap */
-.olControlOverviewMap {
-    bottom: 50px;
-    right: 18px;
-}
-
-.olControlOverviewMapElement, .olControlOverviewMapMinimizeButton {
-    border: 1px solid #cccccc;
-}
-
-/* olControlMousePosition */
-.olControlMousePosition {
-    bottom: 5px;
-    left: 5px;
-    background: #FFF;
-}
-
-/* olControlAttribution */
-.olControlAttribution {
-    bottom: 5px;
-    right: 10px;
-}
-
-/* olControlLayerSwitcher */
-.olControlLayerSwitcher {
-    top: 50px;
-    right: 18px;
-}
-
 /*--------------- style of EXT controls --------------------*/
 
 .x-panel-bbar .x-status-busy {
