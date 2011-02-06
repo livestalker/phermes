@@ -15,3 +15,5 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     (r'^tracker/', include('pgermes.tracker.urls')),
 )
+        
+        
