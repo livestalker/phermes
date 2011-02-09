@@ -1,5 +1,6 @@
 # django imports
 from django.conf.urls.defaults import patterns
+from pgermes.tracker.views import index
 from pgermes.tracker.views import account
 from pgermes.tracker.views import login
 from pgermes.tracker.views import logout
@@ -8,6 +9,8 @@ from pgermes.tracker.views import tracker
 from pgermes.tracker.views import list_devices
 
 urlpatterns = patterns('',
+    # index
+    (r'^$', index),
 
     # tracker accounts urls
     (r'^login/$', login),       # login in system

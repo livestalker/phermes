@@ -1,31 +1,33 @@
 from django.http import HttpResponse,HttpResponseRedirect
+from django.core.context_processors import csrf
 from django.contrib import auth
 from django.shortcuts import render_to_response
 from django.utils.simplejson.encoder import JSONEncoder
 from pgermes.tracker.models import Device
+
+def index(request):
+    return render_to_response('index.html')
 
 # account functions
 def login(request):
     """
     Login page. If request not AJAX open window for login, else auth user
     """
+    c = {}
+    c.update(csrf(request))
     # TODO redirect if user already auth
     if request.method == 'POST':
-        if request.is_ajax():
-            json = {}
+    # TODO remove test ajax
+        if not request.is_ajax():
             username = request.POST.get('username', '')
             password = request.POST.get('password', '')
             user = auth.authenticate(username = username, password = password)
             if user is not None and user.is_active:
-                json['success'] = True
                 auth.login(request, user)
-                # address of redirect look in login.js
+                return HttpResponseRedirect('/tracker/')
             else:
-                json['success'] = False
-                json['errors'] = {}
-                json['errors']['reason'] = 'Login failed. Try again.'
-            return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
-    return render_to_response('login.html')
+                return HttpResponseRedirect('/login/')
+    return render_to_response('login.html', c)
 
 def logout(request):
     """

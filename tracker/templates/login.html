@@ -1,14 +1,25 @@
-{% extends 'layout.html' %}
+{% extends 'ilayout.html' %}
 
-{% block title %}Login page{% endblock %}
+{% block title %}Free GPS Tracker - Login{% endblock %}
 
 {% block css %}
-    <link href="/media/ext/resources/css/ext-all.css" media="screen" rel="stylesheet" type="text/css" />
-    <link href="/media/css/default.css" media="screen" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/media/css/style.css" media="screen" />
 {% endblock %}
 
-{% block scripts %}
-    <script type="text/javascript" src="/media/ext/adapter/ext/ext-base.js"></script>
-    <script type="text/javascript" src="/media/ext/ext-all-debug.js"></script>
-    <script type="text/javascript" src="/media/js/login.js"></script>
+{% block content %}
+<div id="content">
+    <div class="post">
+        <div class="entry">
+            <form action="/login/" method="post">
+                <fieldset>
+                    <legend>For demo access use demo/demo</legend>
+                    {% csrf_token %}
+                    <p><label for="username">Username:</label><input id="username" name="username" type="text" /> </p>
+                    <p><label for="password">Password:</label><input id="password" name="password" type="password" /> </p>
+                    <p class="submit"><input type="submit" value="Login" /></p>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

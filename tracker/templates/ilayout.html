@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{% block title %}{% endblock %}</title>
+{% block css %}{% endblock %}
+</head>
+<body>
+<div id="header">
+	<div id="logo">
+		<h1><a href="#">Germes - Free GPS Tracker</a></h1>
+		<p>Tracking for free!</p>
+	</div>
+	<!-- end #logo -->
+	<div id="menu">
+		<ul>
+			<li class="first"><a href="/">Home</a></li>
+                        <li><a href="#">How To...</a></li>
+			<li><a href="#">About Us</a></li>
+			<li><a href="#">Contact Us</a></li>
+		</ul>
+	</div>
+	<!-- end #menu -->
+</div>
+<!-- end #header -->
+<div id="page">
+        {% block content %}{% endblock %}
+	<!-- end #content -->
+	<div id="sidebar">
+		<div id="sidebar-bgtop"></div>
+		<div id="sidebar-content">
+			<ul>
+				<li>
+					<h2>Feedback</h2>
+					<ul>
+						<li><a href="#">Request features</a></li>
+						<li><a href="#">I found a bug</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div id="sidebar-bgbtm"></div>
+	</div>
+	<!-- end #sidebar -->
+</div>
+<!-- end #page -->
+<div id="footer">
+	<p>&copy; 2011. All Rights Reserved.</p>
+</div>
+<!-- end #footer -->
+</body>
+</html>
