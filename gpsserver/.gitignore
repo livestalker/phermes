@@ -1,0 +1,8 @@
+*.beam
+*.erl~
+*.erl#
+*.app~
+*.save
+*.sh~
+doc
+*.dump
