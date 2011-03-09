@@ -1,3 +1,10 @@
 nbproject
 ext
 ext_1
+*.beam
+*.erl~
+*.erl#
+*.app~
+*.save
+*.sh~
+*.dump
