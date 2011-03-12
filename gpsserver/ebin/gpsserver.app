@@ -12,5 +12,12 @@
 						  {registered,   []},
 						  {applications, [kernel, stdlib]},
 						  {mod, {gpsserver, []}},
-						  {env, [{listening_port, 9001}]}
+						  {env, [
+								 {listening_port, 9001},
+								 {db_host, "localhost"},
+								 {db_db, "pgermes"},
+								 {db_user, "pgermes"},
+								 {db_password, "pgermes"}
+								]
+						  }
 						 ]}.

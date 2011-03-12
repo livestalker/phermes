@@ -45,7 +45,7 @@
 %%--------------------------------------------------------------------
 start(_StartType, _StartArgs) ->
 	init_mnesia(),
-	LPort = get_app_env(listening_port, ?LPORT),
+	LPort = tracker_utils:app_env(listening_port, ?LPORT),
 	case tcp_server_sup:start_link(LPort) of
 		{ok, Pid} ->
 			{ok, Pid};
@@ -69,20 +69,6 @@ stop(_State) ->
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
-
-%%--------------------------------------------------------------------
-%% @private
-%% @doc
-%% Getting application enviroment
-%%
-%% @spec get_app_env(Key::atom(), Default::string()) -> Val | Default
-%% @end
-%%--------------------------------------------------------------------
-get_app_env(Key, Default) ->
-    case application:get_env(Key) of
-		{ok, Val} -> Val;
-		undefined -> Default
-    end.
 
 %%--------------------------------------------------------------------
 %% @private

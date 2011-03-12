@@ -54,7 +54,6 @@ start_link() ->
 init([]) ->
 	%% supervisor flags
 	Flags = {one_for_one, ?MAX_RESTART, ?MAX_TIME},
-
 	%% specification of child processes
 	Spec = [
 			{tracker_parser,                     %% Id
