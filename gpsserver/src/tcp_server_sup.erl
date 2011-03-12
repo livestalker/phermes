@@ -1,14 +1,13 @@
 %%%-------------------------------------------------------------------
-%%% @author LiveStalker alexey@livestalker.net
-%%% @copyright (C) 2010, LiveStalker
+%%% @author Alexey Grebenshchikov <alexey@livestalker.net>
+%%% @copyright (C) 2010, Alexey Grebenshchikov
+%%% @version 1.0
 %%% @doc
-%%% TCP server top supervisor
+%%% GPS server top supevisor
 %%% @end
-%%% Created :  5 Oct 2010 by LiveStalker
 %%%-------------------------------------------------------------------
--module(tcp_server_sup).
--author('alexey@livestalker.net').
 
+-module(tcp_server_sup).
 -behaviour(supervisor).
 
 %% API

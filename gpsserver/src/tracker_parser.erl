@@ -1,13 +1,13 @@
 %%%-------------------------------------------------------------------
-%%% @author LiveStalker alexey@livestalker.net
-%%% @copyright (C) 2010, LiveStalker
+%%% @author Alexey Grebenshchikov <alexey@livestalker.net>
+%%% @copyright (C) 2010, Alexey Grebenshchikov
+%%% @version 1.0
 %%% @doc
-%%% Tracker parser
+%%% Parser of GPS data
 %%% @end
-%%% Created :  5 Oct 2010 by LiveStalker
 %%%-------------------------------------------------------------------
--module(tracker_parser).
 
+-module(tracker_parser).
 -behaviour(gen_server).
 
 %% API

@@ -1,11 +1,12 @@
 %%%-------------------------------------------------------------------
-%%% @author LiveStalker alexey@livestalker.net
-%%% @copyright (C) 2010, LiveStalker
+%%% @author Alexey Grebenshchikov <alexey@livestalker.net>
+%%% @copyright (C) 2010, Alexey Grebenshchikov
+%%% @version 1.0
 %%% @doc
-%%% TCP listener
+%%% Listening process
 %%% @end
-%%% Created :  5 Oct 2010 by LiveStalker
 %%%-------------------------------------------------------------------
+
 -module(tcp_listener).
 -author('alexey@livestalker.net').
 

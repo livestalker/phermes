@@ -1,14 +1,13 @@
 %%%-------------------------------------------------------------------
-%%% @author Alexey Grebenshchikov alexey@livestalker.net
+%%% @author Alexey Grebenshchikov <alexey@livestalker.net>
 %%% @copyright (C) 2010, Alexey Grebenshchikov
+%%% @version 1.0
 %%% @doc
-%%% TCP Listener
+%%% Clients supervisor
 %%% @end
-%%% Created :  5 Oct 2010 by Alexey Grebenshchikov
 %%%-------------------------------------------------------------------
 
 -module(tcp_client_sup).
-
 -behaviour(supervisor).
 
 %% API

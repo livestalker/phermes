@@ -12,5 +12,5 @@
 						  {registered,   []},
 						  {applications, [kernel, stdlib]},
 						  {mod, {gpsserver, []}},
-						  {env, []}
+						  {env, [{listening_port, 9001}]}
 						 ]}.

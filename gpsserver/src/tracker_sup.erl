@@ -1,13 +1,13 @@
 %%%-------------------------------------------------------------------
-%%% @author LiveStalker alexey@livestalker.net
-%%% @copyright (C) 2010, LiveStalker
+%%% @author Alexey Grebenshchikov <alexey@livestalker.net>
+%%% @copyright (C) 2010, Alexey Grebenshchikov
+%%% @version 1.0
 %%% @doc
-%%% Tracker parser
+%%% Supervisor for modules that handle data
 %%% @end
-%%% Created :  5 Oct 2010 by LiveStalker
 %%%-------------------------------------------------------------------
--module(tracker_sup).
 
+-module(tracker_sup).
 -behaviour(supervisor).
 
 %% API

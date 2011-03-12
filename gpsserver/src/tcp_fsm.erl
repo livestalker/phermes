@@ -1,13 +1,13 @@
 %%%-------------------------------------------------------------------
-%%% @author Alexey Grebenshchikov alexey@livestalker.net
+%%% @author Alexey Grebenshchikov <alexey@livestalker.net>
 %%% @copyright (C) 2010, Alexey Grebenshchikov
+%%% @version 1.0
 %%% @doc
-%%% TCP FSM
+%%% Handler of clients connections
 %%% @end
-%%% Created :  5 Oct 2010 by Alexey Grebenshchikov
 %%%-------------------------------------------------------------------
--module(tcp_fsm).
 
+-module(tcp_fsm).
 -behaviour(gen_fsm).
 
 %% API

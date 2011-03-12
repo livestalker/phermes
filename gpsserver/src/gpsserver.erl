@@ -1,14 +1,13 @@
 %%%-------------------------------------------------------------------
-%%% @author LiveStalker alexey@livestalker.net
-%%% @copyright (C) 2010, LiveStalker
+%%% @author Alexey Grebenshchikov <alexey@livestalker.net>
+%%% @copyright (C) 2010, Alexey Grebenshchikov
+%%% @version 1.0
 %%% @doc
-%%% Erlang TCP server
+%%% GPS erlang server application
 %%% @end
-%%% Created :  5 Oct 2010 by LiveStalker
 %%%-------------------------------------------------------------------
--module(gpsserver).
--author('alexey@livestalker.net').
 
+-module(gpsserver).
 -behaviour(application).
 
 %% Application callbacks
@@ -17,7 +16,7 @@
 %% export test
 -export([init_mnesia/0]).
 
--define(PORT, 9000).     %% Default port
+-define(LPORT, 9000).     %% Default port
 
 -record(devices, {imei,
                  device_id,
@@ -46,8 +45,8 @@
 %%--------------------------------------------------------------------
 start(_StartType, _StartArgs) ->
 	init_mnesia(),
-	Port = get_app_env(listen_port, ?PORT),
-	case tcp_server_sup:start_link(Port) of
+	LPort = get_app_env(listening_port, ?LPORT),
+	case tcp_server_sup:start_link(LPort) of
 		{ok, Pid} ->
 			{ok, Pid};
 		Error ->
