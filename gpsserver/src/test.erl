@@ -14,13 +14,13 @@
 
 start() ->
 	%start application
-	application:load(erltcps),
-	application:start(erltcps).
+	application:load(gpsserver),
+	application:start(gpsserver).
 
 stop() -> 
-	application:stop(erltcps), 
-	R = application:get_key(erltcps, modules),
-	application:unload(erltcps), 
+	application:stop(gpsserver), 
+	R = application:get_key(gpsserver, modules),
+	application:unload(gpsserver), 
 	case R of 
 		{ok, Modules} ->
 			unload_modules(Modules); 

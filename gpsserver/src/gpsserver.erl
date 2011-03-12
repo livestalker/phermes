@@ -6,7 +6,7 @@
 %%% @end
 %%% Created :  5 Oct 2010 by LiveStalker
 %%%-------------------------------------------------------------------
--module(erltcps).
+-module(gpsserver).
 -author('alexey@livestalker.net').
 
 -behaviour(application).

@@ -1,0 +1,5 @@
+Description:
+GPS server, written in Erlang. Server handles the connection GPS trackers, parses the data and stores them in MySQL database. For each connection creates a separate erlang process.
+
+Tested GPS trackers:
+- TK102.
