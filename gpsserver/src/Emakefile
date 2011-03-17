@@ -1,1 +1,1 @@
-{'*',[debug_info,{outdir, "../ebin"}]}.
+{'*',[debug_info,{outdir, "../ebin"},{i, "../include"}]}.

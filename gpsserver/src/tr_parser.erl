@@ -28,10 +28,6 @@
 
 %% imei
 -define(TK102_IMEI, "imei:([0-9]*).*").
-%% <<"##,imei:35477703161515,A;">>
--define(TK102_PING, "^##,imei:([0-9]*),A;.*").
-%% <<"imei:35477703161515,tracker,1009240151,+79128295580,F,175145.000,A,5836.1916,N,04936.8198,E,0.57,;">>
--define(TK102_DATA, "^imei:([0-9]*),([a-z]*),([0-9]*),(\\+?[0-9]*),(.?),([.0-9]*),(.?),([.0-9]*),(.?),([.0-9]*),(.?),([.0-9]*),;.*").
 
 -record(state, {}).
 -record(devices, {imei,
@@ -115,46 +111,9 @@ handle_cast({raw, Bin}, State) ->
 			write_data(IMEI, Bin),
 			{noreply, State}
 	end;
-handle_cast({tk102, _, _, _, Bin}, State) ->
-	Spec = [{capture, all, binary}],
-	case re:run(Bin, ?TK102_PING, Spec) of
-		{match, _, IMEI} ->
-			%% for debug only
-			io:format("Ping from device with imei: ~p", IMEI),
-			{noreply, State};
-		_ ->
-			case re:run(Bin, ?TK102_DATA, Spec) of
-				{match, _, IMEI, Cmd, Sn, Tel, _, _, _, Lat, Lat_D, Long, Long_D, _, _} ->
-					
-					Data = [{type, data}, 
-							{imei, IMEI}, 
-							{cmd, Cmd}, 
-							{sn, Sn}, 
-							{tel, Tel}, 
-							{geo, get_geo([binary:bin_to_list(Lat), Lat_D, binary:bin_to_list(Long), Long_D])}],
-					error_logger:info_msg("~p~n", [Data]);
-				_ ->
-					nomatch
-			end,
-			{noreply, State}
-	end;
-	%% String = binary:bin_to_list(Bin),
-	%% %% detect type packet
-	%% case re:run(String, "^##") of
-	%% 	{match, [{0,2}]} ->
-	%% 		%% ping packet detected
-	%% 		%% fill property list
-	%% 		Data = [{type, ping}, {imei, get_imei(String)}];
-	%% 	nomatch ->
-	%% 		%% data packet
-	%% 		ListData = re:split(String, ",", [{return, list}]),
-	%% 		[IMEI, CMD, SN, TEL, _, _TIME, _|GEO] = ListData,
-	%% 		IMEI2 = get_imei(IMEI),
-	%% 		%% fill prop list
-	%% 		Data = [{type, data}, {imei, IMEI2}, {cmd, CMD}, {sn, SN}, {tel, TEL}, {geo, get_geo(GEO)}]
-	%% end,
-	%% error_logger:info_msg("~p~n", [Data]),
-	%%{noreply, State};
+handle_cast({tk102, _, _, _, _Bin}, State) ->
+	error_logger:info("tk102~n"),
+	{noreply, State};
 handle_cast(_Msg, State) ->
 	{noreply, State}.
 
@@ -197,55 +156,6 @@ code_change(_OldVsn, State, _Extra) ->
 	{ok, State}.
 
 %%%===================================================================
-%%% Internal functions - Geo
-%%%===================================================================
-
-%%--------------------------------------------------------------------
-%% @private
-%% @doc
-%% Get geo information
-%%
-%% @spec get_geo(GEO::list()) -> [{latitude, float()}, {longitude, float()}]
-%% @end
-%%--------------------------------------------------------------------
-
-get_geo(GEO) when length(GEO) == 4 ->
-	[Lat, Lat_D, Long, Long_D] = GEO,
-	Latitude = get_latitude(string:substr(Lat, 1, 2),
-							string:substr(Lat, 3, 7),
-							Lat_D),
-	Longitude = get_longitude(string:substr(Long, 1, 3),
-							  string:substr(Long, 4, 7),
-							  Long_D),
-	[{latitude, Latitude}, {longitude, Longitude}];
-get_geo(_) ->
-	error.
-
-%%--------------------------------------------------------------------
-%% @private
-%% @doc
-%% Get latitude
-%%
-%% @spec get_latitude(Grad::string(), Min::string(), Lat_D::string()) -> float()
-%% @end
-%%--------------------------------------------------------------------
-
-get_latitude(Grad, Min, Lat_D) ->
-	get_sign(Lat_D) * (to_int(Grad) + to_float(Min) / 60).
-
-%%--------------------------------------------------------------------
-%% @private
-%% @doc
-%% Get longitude
-%%
-%% @spec get_longitude(Grad::string(), Min::string(), Long_D::string()) -> float()
-%% @end
-%%--------------------------------------------------------------------
-
-get_longitude(Grad, Min, Long_D) ->
-	get_sign(Long_D) * (to_int(Grad) + to_float(Min) / 60).
-
-%%%===================================================================
 %%% Internal functions - Parser
 %%%===================================================================
 
@@ -260,52 +170,6 @@ get_imei(Bin) ->
 		_ ->
 			nomatch
 	end.
-
-%%%===================================================================
-%%% Internal functions - Math
-%%%===================================================================
-
-%%--------------------------------------------------------------------
-%% @private
-%% @doc
-%% Convert string to integer
-%%
-%% @spec to_int(Str::string()) -> integer()
-%% @end
-%%--------------------------------------------------------------------
-
-to_int(Str) ->
-	{Result, _} = string:to_integer(Str),
-	Result.
-
-%%--------------------------------------------------------------------
-%% @private
-%% @doc
-%% Convert string to float
-%%
-%% @spec to_float(Str::string()) -> float()
-%% @end
-%%--------------------------------------------------------------------
-
-to_float(Str) ->
-	{Result, _} = string:to_float(Str),
-	Result.
-
-%%--------------------------------------------------------------------
-%% @private
-%% @doc
-%% Get sign of latitude/logitude
-%%
-%% @spec get_sign(string()) -> -1 | 1
-%% @end
-%%--------------------------------------------------------------------
-
-get_sign(<<"W">>) ->
-	-1;
-get_sign(<<"S">>) ->
-	-1;
-get_sign(_) ->
-	1.
 
 %%%===================================================================
 %%% Internal functions - DB
