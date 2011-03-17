@@ -7,7 +7,7 @@
 %%% @end
 %%%-------------------------------------------------------------------
 
--module(tracker_parser).
+-module(tr_parser).
 -behaviour(gen_server).
 
 %% API

@@ -71,12 +71,12 @@ init([Port]) ->
 			 supervisor,
 			 [tcp_client_sup]
 			},
-			{tracker_sup,
-			 {tracker_sup, start_link, []},
+			{tr_sup,
+			 {tr_sup, start_link, []},
 			 permanent,
 			 infinity,
 			 supervisor,
-			 [tracker_sup]
+			 [tr_sup]
 			}],
 	
 	{ok, {Flags, Spec}}.

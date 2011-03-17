@@ -45,7 +45,7 @@
 %%--------------------------------------------------------------------
 start(_StartType, _StartArgs) ->
 	init_mnesia(),
-	LPort = tracker_utils:app_env(listening_port, ?LPORT),
+	LPort = tr_utils:app_env(listening_port, ?LPORT),
 	case tcp_server_sup:start_link(LPort) of
 		{ok, Pid} ->
 			{ok, Pid};

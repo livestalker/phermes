@@ -6,7 +6,7 @@
 %%% Different utils for system
 %%% @end
 %%%-------------------------------------------------------------------
--module(tracker_utils).
+-module(tr_utils).
 
 %% API
 -export([app_env/2]).
@@ -22,6 +22,7 @@
 %%       Val = term()    
 %% @end
 %%--------------------------------------------------------------------
+
 app_env(Key, Default) ->
     case application:get_env(Key) of
 		{ok, Val} -> Val;
