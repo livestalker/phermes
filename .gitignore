@@ -8,3 +8,5 @@ ext_1
 *.save
 *.sh~
 *.dump
+*.pyc
+
