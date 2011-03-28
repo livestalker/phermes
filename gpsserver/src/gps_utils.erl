@@ -6,7 +6,7 @@
 %%% Different utils for system
 %%% @end
 %%%-------------------------------------------------------------------
--module(tr_utils).
+-module(gps_utils).
 
 %% system API
 -export([app_env/2]).

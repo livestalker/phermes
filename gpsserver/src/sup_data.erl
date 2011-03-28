@@ -3,15 +3,15 @@
 %%% @copyright (C) 2010, Alexey Grebenshchikov
 %%% @version 1.0
 %%% @doc
-%%% GPS server top supevisor
+%%% Supervisor for modules that handle data
 %%% @end
 %%%-------------------------------------------------------------------
 
--module(tcp_server_sup).
+-module(sup_data).
 -behaviour(supervisor).
 
 %% API
--export([start_link/1]).
+-export([start_link/0]).
 
 %% Supervisor callbacks
 -export([init/1]).
@@ -28,11 +28,11 @@
 %% @doc
 %% Starts the supervisor
 %%
-%% @spec start_link(Port::integer()) -> {ok, Pid} | ignore | {error, Error}
+%% @spec start_link() -> {ok, Pid} | ignore | {error, Error}
 %% @end
 %%--------------------------------------------------------------------
-start_link(Port) ->
-	supervisor:start_link({local, ?SERVER}, ?MODULE, [Port]).
+start_link() ->
+	supervisor:start_link({local, ?SERVER}, ?MODULE, []).
 
 %%%===================================================================
 %%% Supervisor callbacks
@@ -51,36 +51,38 @@ start_link(Port) ->
 %%                     {error, Reason}
 %% @end
 %%--------------------------------------------------------------------
-init([Port]) ->
+
+init([]) ->
 	%% supervisor flags
 	Flags = {one_for_one, ?MAX_RESTART, ?MAX_TIME},
 
 	%% specification of child processes
 	Spec = [
-			{tcp_listener,                       %% Id
-			 {tcp_listener, start_link, [Port]}, %% StartFunc = {M, F, A}
-			 permanent,                          %% Permanent - child process is always restarted.
-			 2000,                               %% Defines how a child process should be terminated. 2000 - timeout befor terminated.
-			 worker,                             %% Type of child (worker | supervisor).
-			 [tcp_listener]                      %% Callback module, shuld be a list with one element.
-			},
-			{tcp_client_sup,
-			 {tcp_client_sup, start_link, []},
-			 permanent,
-			 infinity,
-			 supervisor,
-			 [tcp_client_sup]
-			},
-			{tr_sup,
-			 {tr_sup, start_link, []},
-			 permanent,
-			 infinity,
-			 supervisor,
-			 [tr_sup]
-			}],
+			%% {tr_parser,                          %% Id
+			%%  {tr_parser, start_link, []},        %% StartFunc = {M, F, A}
+			%%  transient,                          %% Permanent - child process is always restarted.
+			%%  5000,                               %% Defines how a child process should be terminated. 2000 - timeout befor terminated.
+			%%  worker,                             %% Type of child (worker | supervisor).
+			%%  [tr_parser]                         %% Callback module, shuld be a list with one element.
+			%% },
+			{mysql,
+			 {mysql, start_link, db_opt()},
+			 transient,
+			 5000,
+			 worker,
+			 [mysql]
+			}
+		   ],
 	
 	{ok, {Flags, Spec}}.
 
 %%%===================================================================
 %%% Internal functions
 %%%===================================================================
+
+db_opt() ->
+	Db_host = tr_utils:app_env(db_host, "localhost"),
+	Db_db = tr_utils:app_env(db_db, ""),
+	Db_user = tr_utils:app_env(db_user, ""),
+	Db_password = tr_utils:app_env(db_password, ""),
+	[pgermes, Db_host, Db_db, Db_user, Db_password].

@@ -3,15 +3,15 @@
 %%% @copyright (C) 2010, Alexey Grebenshchikov
 %%% @version 1.0
 %%% @doc
-%%% Clients supervisor
+%%% GPS server top supevisor
 %%% @end
 %%%-------------------------------------------------------------------
 
--module(tcp_client_sup).
+-module(sup_gps).
 -behaviour(supervisor).
 
 %% API
--export([start_link/0, start_child/0]).
+-export([start_link/0]).
 
 %% Supervisor callbacks
 -export([init/1]).
@@ -24,48 +24,43 @@
 %%% API functions
 %%%===================================================================
 
-%%--------------------------------------------------------------------
-%% @doc
-%% Starts the supervisor
-%%
-%% @spec start_link() -> {ok, Pid} | ignore | {error, Error}
-%% @end
-%%--------------------------------------------------------------------
+-type error() :: {already_started, pid()} | shutdown | term().
+-spec (start_link() -> {ok, pid()} | ignore | {error, error()}).
+%% @doc Start top supervisor.
+
 start_link() ->
 	supervisor:start_link({local, ?SERVER}, ?MODULE, []).
-
-start_child() ->
-	supervisor:start_child(tcp_client_sup, []).
 
 %%%===================================================================
 %%% Supervisor callbacks
 %%%===================================================================
 
-%%--------------------------------------------------------------------
+-type spec() :: supervisor:child_spec().
+-type flags() :: {RestartStrategy :: supervisor:stratagy(), 
+				  MaxR :: integer(), 
+				  MaxT :: integer()}.
+-spec (init(list()) -> {ok, {flags(), [spec()]}} | ignore).
 %% @private
-%% @doc
-%% Whenever a supervisor is started using supervisor:start_link/[2,3],
-%% this function is called by the new process to find out about
-%% restart strategy, maximum restart frequency and child
-%% specifications.
-%%
-%% @spec init(Args) -> {ok, {SupFlags, [ChildSpec]}} |
-%%                     ignore |
-%%                     {error, Reason}
-%% @end
-%%--------------------------------------------------------------------
+%% @doc Init supervisor when it started using supervisor:start_link/[2,3].
+
 init([]) ->
-	%% supervisr flags
-	Flags = {simple_one_for_one, ?MAX_RESTART, ?MAX_TIME},
-	%% specification of child processes
+	Flags = {one_for_one, ?MAX_RESTART, ?MAX_TIME},
 	Spec = [
-			{undefined, 
-			 {tcp_fsm, start_link, []}, 
-			 temporary,
-			 2000,
-			 worker,
-			 [tcp_fsm]
+			{sup_clients,
+			 {sup_clients, start_link, []},
+			 permanent,
+			 infinity,
+			 supervisor,
+			 [sup_clients]
+			},
+			{sup_data,
+			 {sup_data, start_link, []},
+			 permanent,
+			 infinity,
+			 supervisor,
+			 [sup_data]
 			}],
+
 	{ok, {Flags, Spec}}.
 
 %%%===================================================================
