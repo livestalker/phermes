@@ -45,7 +45,7 @@ do_start()
     if [ -f "$PIDFILE" ]; then 
         return 1 
     else 
-		EBIN=`erl -eval 'io:format("~s", [code:lib_dir(erltcps,ebin)])' -s init stop -noshell`
+		EBIN=`erl -eval 'io:format("~s", [code:lib_dir(gpsserver,ebin)])' -s init stop -noshell`
         start-stop-daemon \
 			--start --background --pidfile $PIDFILE --make-pidfile \
 			--exec $DAEMON -- $DAEMON_ARGS -pa "$EBIN" $CONFIG
