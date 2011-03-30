@@ -6,16 +6,13 @@
 										  sup_clients,
 										  srv_client,
 										  sup_data,
-										  plg_tk102]},
+										  gps_utils,
+										  mysql,
+										  mysql_auth,
+										  mysql_conn,
+										  mysql_recv]},
 						  {registered,   []},
 						  {applications, [kernel, stdlib]},
 						  {mod, {gpsserver, []}},
-						  {env, [
-								 {listening_port, 9001},
-								 {db_host, "localhost"},
-								 {db_db, "pgermes"},
-								 {db_user, "pgermes"},
-								 {db_password, "pgermes"}
-								]
-						  }
+						  {env, []}
 						 ]}.

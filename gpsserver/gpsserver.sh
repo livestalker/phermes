@@ -33,10 +33,10 @@ SCRIPTNAME=/etc/init.d/$NAME
 do_start() 
 { 
 	# read config
-	if [ -f "/etc/erltcps/production.config" ] ; then
-		CONFIG="-config /etc/erltcps/production.config"
-#	elif   [ -f "priv/production.config" ] ; then
-#		CONFIG="-config priv/production.config"
+	if [ -f "/etc/gpsserver/production.config" ] ; then
+		CONFIG="-config /etc/gpsserver/production.config"
+	elif   [ -f "priv/production.config" ] ; then
+		CONFIG="-config priv/production.config"
 	else
 		CONFIG=""
 	fi

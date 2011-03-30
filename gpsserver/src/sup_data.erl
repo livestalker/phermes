@@ -11,7 +11,7 @@
 -behaviour(supervisor).
 
 %% API
--export([start_link/0]).
+-export([start_link/0, db_opt/0]).
 
 %% Supervisor callbacks
 -export([init/1]).
@@ -55,16 +55,8 @@ start_link() ->
 init([]) ->
 	%% supervisor flags
 	Flags = {one_for_one, ?MAX_RESTART, ?MAX_TIME},
-
 	%% specification of child processes
 	Spec = [
-			%% {tr_parser,                          %% Id
-			%%  {tr_parser, start_link, []},        %% StartFunc = {M, F, A}
-			%%  transient,                          %% Permanent - child process is always restarted.
-			%%  5000,                               %% Defines how a child process should be terminated. 2000 - timeout befor terminated.
-			%%  worker,                             %% Type of child (worker | supervisor).
-			%%  [tr_parser]                         %% Callback module, shuld be a list with one element.
-			%% },
 			{mysql,
 			 {mysql, start_link, db_opt()},
 			 transient,
@@ -73,7 +65,6 @@ init([]) ->
 			 [mysql]
 			}
 		   ],
-	
 	{ok, {Flags, Spec}}.
 
 %%%===================================================================
@@ -81,8 +72,8 @@ init([]) ->
 %%%===================================================================
 
 db_opt() ->
-	Db_host = tr_utils:app_env(db_host, "localhost"),
-	Db_db = tr_utils:app_env(db_db, ""),
-	Db_user = tr_utils:app_env(db_user, ""),
-	Db_password = tr_utils:app_env(db_password, ""),
+	Db_host = gps_utils:app_env(db_host, "localhost"),
+	Db_db = gps_utils:app_env(db_db, ""),
+	Db_user = gps_utils:app_env(db_user, ""),
+	Db_password = gps_utils:app_env(db_password, ""),
 	[pgermes, Db_host, Db_db, Db_user, Db_password].
