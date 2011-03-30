@@ -90,8 +90,8 @@ case "$1" in
 		do_rmshell
 		;;
 	libupdate)
-		rm -rf /usr/local/lib/erlang/lib/erltcps
-		cp -r erltcps /usr/local/lib/erlang/lib/
+		rm -rf /usr/local/lib/erlang/lib/gpsserver
+		cp -r gpsserver /usr/local/lib/erlang/lib/
 		;;
     restart) 
         log_daemon_msg "Restarting GPS erlang daemon" 
