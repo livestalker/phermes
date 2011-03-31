@@ -179,8 +179,14 @@ code_change(_OldVsn, State, _Extra) ->
 write_data(#gprmc{imei = IMEI, lat = Lat, long = Long} = GPRMC) ->   
 	Result = mysql:fetch(pgermes, io_lib:format(?SQL_READ_DATA, [IMEI])),
 	{data, {mysql_result, _Fields, Data, _, _, _}} = Result,
-	[[_, Device_id, User_id]] = Data,
-	Ts_time = "2010-09-03 09:14:26",
-	mysql:prepare(sql_write_data, ?SQL_WRITE_DATA),
-	mysql:execute(pgermes, sql_write_data, [Lat, Long, Ts_time, Device_id, User_id, IMEI]).
-
+	case Data of
+		[[_, Device_id, User_id]] ->
+			[[_, Device_id, User_id]] = Data,
+			Ts_time = "2010-09-03 09:14:26",
+			mysql:prepare(sql_write_data, ?SQL_WRITE_DATA),
+			mysql:execute(pgermes, sql_write_data, [Lat, Long, Ts_time, Device_id, User_id, IMEI]);
+		_ ->
+			%% if no records in DB
+			%% TODO disconnect device
+			ok
+	end.
