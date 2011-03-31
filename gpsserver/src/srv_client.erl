@@ -23,7 +23,7 @@
 -define(SERVER, ?MODULE). 
 -define(TIMEOUT, 60000).
 -define(SQL_READ_DATA, <<"select imei, device_id, user_id from tracker_device where imei=~s">>).
--define(SQL_WRITE_DATA, <<"update tracker_device SET latitude=?, longitude=?, ts_time=? where device_id=? and user_id=? and imei=?">>).
+-define(SQL_WRITE_DATA, <<"update tracker_device SET lat=?, `long`=?, ts_time=? where device_id=? and user_id=? and imei=?">>).
 
 -record(state, {
 		  lsock,          %% Listening socket
