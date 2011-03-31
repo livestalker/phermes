@@ -74,17 +74,17 @@ do_rmshell()
 
 case "$1" in 
     start) 
-        log_daemon_msg "Starting GPS erlang daemon" 
+        log_daemon_msg "Starting GPS server daemon" 
         do_start 
         log_end_msg $? 
         ;; 
     stop) 
-        log_daemon_msg "Stop GPS erlang daemon" 
+        log_daemon_msg "Stop GPS server daemon" 
         do_stop 
         log_end_msg $? 
         ;; 
     status) 
-        status_of_proc "$DAEMON" "GPS erlang daemon" && exit 0 || exit $? 
+        status_of_proc "$DAEMON" "GPS server daemon" && exit 0 || exit $? 
         ;; 
 	remsh)
 		do_rmshell
@@ -94,7 +94,7 @@ case "$1" in
 		cp -r gpsserver /usr/local/lib/erlang/lib/
 		;;
     restart) 
-        log_daemon_msg "Restarting GPS erlang daemon" 
+        log_daemon_msg "Restarting GPS server daemon" 
         do_stop 
         case "$?" in 
             0|1) 
