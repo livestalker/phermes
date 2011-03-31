@@ -120,7 +120,7 @@ handle_cast(_Msg, State) ->
 
 handle_info({tcp, Socket, RawData}, #state{plugin = Plugin, sock = Sock} = State) ->
 	Res = erlang:apply(Plugin, parse, [RawData]),
-	error_logger:info_msg("Data: ~p~n", [Res]),
+	error_logger:info_msg("Data: ~p~n Parse: ~p~n", [RawData, Res]),
 	inet:setopts(Socket, [binary, {packet, raw}, {nodelay, true}, {active, once}, {keepalive, true}]),	
 	case Res of
 		{ok, pong} ->
