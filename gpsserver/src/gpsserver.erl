@@ -1,7 +1,7 @@
 %%%-------------------------------------------------------------------
 %%% @author Alexey Grebenshchikov <alexey@livestalker.net>
 %%% @copyright (C) 2010, Alexey Grebenshchikov
-%%% @version 1.0
+%%% @version 1.2
 %%% @doc
 %%% GPS erlang server application
 %%% @end
@@ -10,8 +10,23 @@
 -module(gpsserver).
 -behaviour(application).
 
+%% API
+-export([start/0]).
+
 %% Application callbacks
 -export([start/2, stop/1]).
+
+%%%===================================================================
+%%% API
+%%%===================================================================
+
+-spec start() -> term().
+%% @private
+%% @doc Start application.
+				   
+start() ->
+	application:load(gpsserver),
+	application:start(gpsserver).
 
 %%%===================================================================
 %%% Application callbacks

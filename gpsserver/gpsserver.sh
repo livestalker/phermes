@@ -22,8 +22,8 @@ fi
 NAME=erl
 DAEMON=/usr/local/bin/$NAME
 EMUL_FLAGS="+A 4 +K true"
-DAEMON_ARGS="$EMUL_FLAGS -noinput -$TYPE $NODE@$HOST"
-PIDFILE=/var/run/$NAME.pid 
+DAEMON_ARGS="$EMUL_FLAGS -noinput -$TYPE $NODE@$HOST -s gpsserver start"
+PIDFILE=/var/run/gpsserver.pid 
 SCRIPTNAME=/etc/init.d/$NAME
 
 [ -x "$DAEMON" ] || exit 0 
@@ -59,6 +59,11 @@ do_stop()
 	case "$RES" in
 		"ok")
 			rm -f $PIDFILE 
+			return 0
+			;;
+		"{badrpc,nodedown}")
+			echo "Can not connect to $NODE@$HOST, remove PID file?"
+			rm -i $PIDFILE
 			return 0
 			;;
 		*)
