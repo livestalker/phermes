@@ -16,14 +16,14 @@ from django.db import models
 
 class Device(models.Model):
     device_id = models.AutoField(primary_key=True, verbose_name='ID')
-    user_id   = models.ForeignKey(User, db_column='user_id', verbose_name='User ID')
+    user_id   = models.ForeignKey(User, db_column='user_id', verbose_name='user ID')
     type      = models.CharField(max_length=30)
     imei      = models.CharField(max_length=30, verbose_name = 'IMEI')
     name      = models.CharField(max_length=30)
     text      = models.CharField(max_length=255)
-    long      = models.FloatField(verbose_name = 'Longitude')
-    lat       = models.FloatField(verbose_name = 'Latitude')
-    ts_time   = models.DateTimeField(verbose_name = 'Last time request')
+    long      = models.DecimalField(verbose_name = 'longitude', max_digits=10, decimal_places=6)
+    lat       = models.DecimalField(verbose_name = 'latitude', max_digits=10, decimal_places=6)
+    ts_time   = models.DateTimeField(verbose_name = 'last time request')
 
 # history of move object
 # device_id - ID device
@@ -32,6 +32,6 @@ class Device(models.Model):
 # ts_time   - time stamp
 class Track(models.Model):
     device_id = models.ForeignKey(User, db_column='device_id', verbose_name='Device ID')
-    long      = models.FloatField(verbose_name = 'Longitude')
-    lat       = models.FloatField(verbose_name = 'Latitude')
+    long      = models.DecimalField(verbose_name = 'longitude', max_digits=10, decimal_places=6)
+    lat       = models.DecimalField(verbose_name = 'latitude', max_digits=10, decimal_places=6)
     ts_time   = models.DateTimeField(verbose_name = 'Time stamp')
