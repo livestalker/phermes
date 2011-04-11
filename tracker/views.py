@@ -1,51 +1,47 @@
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.contrib import auth
 from django.shortcuts import render_to_response
 from django.utils.simplejson.encoder import JSONEncoder
 from pgermes.tracker.models import Device
 
-def index(request):
-    return render_to_response('index.html')
-
 # account functions
-def login(request):
+def index(request):
     """
-    Login page. If request not AJAX open window for login, else auth user
+    Main page. If request not AJAX open index page
     """
     c = {}
     c.update(csrf(request))
-    # TODO redirect if user already auth
     if request.method == 'POST':
-    # TODO remove test ajax
-        if not request.is_ajax():
+        if request.is_ajax():
             username = request.POST.get('username', '')
             password = request.POST.get('password', '')
+            json = {}
             user = auth.authenticate(username = username, password = password)
             if user is not None and user.is_active:
                 auth.login(request, user)
-                return HttpResponseRedirect('/tracker/')
+                json['success'] = True
+                return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
+                #return HttpResponseRedirect('/tracker/')
             else:
-                return HttpResponseRedirect('/login/')
-    return render_to_response('login.html', c)
+                json['success'] = False
+                json['errors'] = {}
+                json['errors']['reason'] = 'Login failed. Try again.'
+                return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
+                #return HttpResponseRedirect('/')
+    return render_to_response('index.html', c)
 
 def logout(request):
     """
     Logout from system
     """
     auth.logout(request)
-    return HttpResponseRedirect('/tracker/login/')
-
-def signup(request):
-    return render_to_response('login.html')
-
-def account(request):
-    return render_to_response('login.html')
+    return HttpResponseRedirect('/')
 
 # tracker function
 def tracker(request):
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('/tracker/login/')
+        return HttpResponseRedirect('/')
     else:
         return render_to_response('tracker.html')
 
