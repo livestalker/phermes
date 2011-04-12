@@ -3,7 +3,7 @@ from django.core.context_processors import csrf
 from django.contrib import auth
 from django.shortcuts import render_to_response
 from django.utils.simplejson.encoder import JSONEncoder
-from pgermes.tracker.models import Device
+from phermes.tracker.models import Device
 
 # account functions
 def index(request):

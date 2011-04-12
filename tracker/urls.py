@@ -1,9 +1,9 @@
 # django imports
 from django.conf.urls.defaults import patterns
-from pgermes.tracker.views import index
-from pgermes.tracker.views import logout
-from pgermes.tracker.views import tracker
-from pgermes.tracker.views import list_devices
+from phermes.tracker.views import index
+from phermes.tracker.views import logout
+from phermes.tracker.views import tracker
+from phermes.tracker.views import list_devices
 
 urlpatterns = patterns('',
     # index

@@ -1,6 +1,6 @@
 import os.path
 
-# Django settings for pgermes project.
+# Django settings for phermes project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -81,7 +81,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'pgermes.urls'
+ROOT_URLCONF = 'phermes.urls'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
@@ -98,14 +98,16 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
-    # 'django.contrib.staticfiles',
-    'pgermes.tracker',
+    'django.contrib.staticfiles',
+    'phermes.tracker',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
-#STATICFILES_DIRS = (
-#    os.path.join(SITE_ROOT, 'tracker/templates/static')
-#)
-#
+STATICFILES_DIRS = (
+    os.path.join(SITE_ROOT, 'tracker/media'),
+)
+
+STATIC_URL = '/media/'
+
 #STATIC_ROOT = os.path.join(SITE_ROOT, 'static')

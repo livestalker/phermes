@@ -4,7 +4,7 @@ __date__ ="$06.12.2010 14:37:21$"
 from setuptools import setup,find_packages
 
 setup (
-  name = 'pgermes',
+  name = 'phermes',
   version = '0.1',
   packages = find_packages(),
 

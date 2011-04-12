@@ -1,6 +1,6 @@
 from django.contrib import admin
-from pgermes.tracker.models import Device
-from pgermes.tracker.models import Track
+from phermes.tracker.models import Device
+from phermes.tracker.models import Track
 
 class DeviceAdmin(admin.ModelAdmin):
     list_display = ('device_id', 'user_id', 'name', 'ts_time',)

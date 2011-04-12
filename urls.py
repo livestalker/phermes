@@ -13,7 +13,7 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
-    (r'', include('pgermes.tracker.urls')),
+    (r'', include('phermes.tracker.urls')),
 )
         
         
