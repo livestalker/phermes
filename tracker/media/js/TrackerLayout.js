@@ -23,7 +23,7 @@ Ext.onReady(function() {
                 align: 'stretch'                
             },
             items: [{
-                xtype: 'panel',
+                xtype: 'devicegrid',
                 flex: 2
             }, {
                 xtype: 'panel',

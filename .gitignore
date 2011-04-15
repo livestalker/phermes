@@ -10,4 +10,4 @@ ol
 *.sh~
 *.dump
 *.pyc
-
+.idea
