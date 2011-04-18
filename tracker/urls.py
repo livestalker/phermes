@@ -16,5 +16,5 @@ urlpatterns = patterns('',
     (r'^tracker/$', tracker),           # main window of application
 
     # tracker AJAX urls
-    (r'^list/$', list_devices),          # get list of devices
+    (r'^listdevices/$', list_devices),          # get list of devices
 )

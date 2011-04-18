@@ -48,14 +48,12 @@ def tracker(request):
 # tracker AJAX functions
 def list_devices(request):
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('/tracker/login/')
+        return HttpResponseRedirect('/')
     else:
         if request.method == 'POST' and request.is_ajax():
             json = []
             for d in Device.objects.filter(user_id = request.user.id):
-                json.append({'device_id' : d.device_id, 'imei' : d.imei, 'name' : d.name, 'text' : d.text, 'long' : d.long, 'lat' : d.lat, 'long' : d.long, 'ts_time' : str(d.ts_time)})
+                json.append({'device_id' : d.device_id, 'imei' : d.imei, 'name' : d.name, 'text' : d.text, 'long' : str(d.long), 'lat' : str(d.lat), 'ts_time' : str(d.ts_time)})
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
         else:
             return HttpResponseRedirect('/tracker/')
-
-
