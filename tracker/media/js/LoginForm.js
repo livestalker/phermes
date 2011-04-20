@@ -25,7 +25,7 @@ Ext.define('Ext.app.LoginForm', {
 		name : 'password',
 		fieldLabel : 'Password',
 		inputType : 'password',
-		allowBlank : false,
+		allowBlank : false
 		// minLength : 8
 		// TODO make min length of password
 	} ],

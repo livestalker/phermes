@@ -8,6 +8,7 @@ Ext.onReady(function() {
         items: [{
             region: 'center',
             xtype: 'mappanel',
+            itemId: 'mappanel',
             border: false
         },{
             region: 'east',
@@ -24,9 +25,11 @@ Ext.onReady(function() {
             },
             items: [{
                 xtype: 'devicegrid',
+                itemId: 'devicegrid',
                 flex: 2
             }, {
                 xtype: 'panel',
+                itemId: 'infopanel',
                 flex: 1
             }]
         }]

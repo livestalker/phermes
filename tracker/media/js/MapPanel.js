@@ -2,7 +2,9 @@ Ext.define('Ext.app.MapPanel', {
             extend: 'Ext.panel.Panel',
             alias: 'widget.mappanel',
             bodyPadding: 10,
-            viewProjection  : new OpenLayers.Projection("EPSG:4326"),
+            map: undefined,
+            devicesMarkers: {},
+            viewProjection: new OpenLayers.Projection("EPSG:4326"),
             dockedItems: [
                 {
                     xtype: 'mpstatusbar'
@@ -47,21 +49,61 @@ Ext.define('Ext.app.MapPanel', {
                     ]
                 };
                 this.map = new OpenLayers.Map(this.body.dom, options);
+                var planeStyleMap = new OpenLayers.StyleMap({
+                            externalGraphic: '/media/img/marker.png',
+                            graphicWidth: 21,
+                            graphicHeight: 25,
+                            fillOpacity: 0.60,
+                            rotation: "${angle}"
+                        });
+                this.baseLayer = new OpenLayers.Layer.OSM.Mapnik('Mapnik', blOptions);
+                this.devicesLayer = new OpenLayers.Layer.Vector('Devices', {
+                            projection: new OpenLayers.Projection("EPSG:4326"),
+                            visibility: true,
+                            displayInLayerSwitcher: false,
+                            styleMap: planeStyleMap
+                        });
                 var blOptions = {
                     eventListeners: {
                     }
                 }
-                this.baseLayer = new OpenLayers.Layer.OSM.Mapnik('Mapnik', blOptions);
-                this.map.addLayers([this.baseLayer]);
+                this.map.addLayers([this.baseLayer, this.devicesLayer]);
                 this.setCenter(37.650417, 55.757276, 5);
             },
             resizeMap: function() {
                 if (typeof this.map == 'object')
                     this.map.updateSize();
             },
-
             setCenter: function(lon, lat, zoom) {
                 var lonlat = new OpenLayers.LonLat(lon, lat);
                 this.map.setCenter(lonlat.transform(this.viewProjection, this.map.projection), zoom);
+            },
+            refreshMarker: function(record) {
+                // TODO long issue
+                var imei = record.data['imei'];
+                var lat = parseFloat(record.data['lat']);
+                var lon = parseFloat(record.data['long']);
+                var marker = null;
+                var zoom = this.map.getZoom();
+                if (this.devicesMarkers[imei] == null) {
+                    //marker = new OpenLayers.Marker(lonlat);
+                    var geometry = new OpenLayers.Geometry.Point(lon, lat).transform(this.viewProjection, this.map.projection);
+                    marker = new OpenLayers.Feature.Vector(geometry, {
+                                angle: 0,
+                                poppedup: false
+                            });
+
+                    this.devicesMarkers[imei] = marker;
+                    this.devicesLayer.addFeatures(marker);
+                    this.setCenter(lon, lat, zoom);
+                } else {
+                    var lonlat = new OpenLayers.LonLat(lon, lat).transform(this.viewProjection, this.map.projection);
+                    marker = this.devicesMarkers[imei];
+                    marker.move(lonlat);
+                    this.setCenter(lon, lat, zoom);
+                }
+            },
+            getDevicesMarkers: function() {
+                return this.devicesMarkers;
             }
         });
