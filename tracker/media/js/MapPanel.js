@@ -53,7 +53,7 @@ Ext.define('Ext.app.MapPanel', {
                             externalGraphic: '/media/img/marker.png',
                             graphicWidth: 21,
                             graphicHeight: 25,
-                            fillOpacity: 0.60,
+                            fillOpacity: 1,
                             rotation: "${angle}"
                         });
                 this.baseLayer = new OpenLayers.Layer.OSM.Mapnik('Mapnik', blOptions);
@@ -86,7 +86,6 @@ Ext.define('Ext.app.MapPanel', {
                 var marker = null;
                 var zoom = this.map.getZoom();
                 if (this.devicesMarkers[imei] == null) {
-                    //marker = new OpenLayers.Marker(lonlat);
                     var geometry = new OpenLayers.Geometry.Point(lon, lat).transform(this.viewProjection, this.map.projection);
                     marker = new OpenLayers.Feature.Vector(geometry, {
                                 angle: 0,
@@ -102,6 +101,13 @@ Ext.define('Ext.app.MapPanel', {
                     marker.move(lonlat);
                     this.setCenter(lon, lat, zoom);
                 }
+            },
+            selectMarker: function(record) {
+                this.refreshMarker(record);
+                var lat = parseFloat(record.data['lat']);
+                var lon = parseFloat(record.data['long']);
+                var zoom = this.map.getZoom();
+                this.setCenter(lon, lat, zoom);
             },
             getDevicesMarkers: function() {
                 return this.devicesMarkers;

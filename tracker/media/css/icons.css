@@ -1,0 +1,19 @@
+
+.help {
+    background-image:url(/media/img/help.png) !important
+}
+.wiki {
+    background-image:url(/media/img/wiki.png) !important;
+}
+.world {
+    background-image:url(/media/img/world.png) !important;
+}
+.source {
+    background-image:url(/media/img/source.png) !important;
+}
+.bug {
+    background-image:url(/media/img/bug.png) !important;
+}
+.logout {
+    background-image:url(/media/img/logout.png) !important;
+}

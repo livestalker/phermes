@@ -21,7 +21,13 @@ Ext.define('Ext.app.DeviceGrid', {
                     },
                     url : '/listdevices/'
                 },
-                autoLoad: true
+                autoLoad: true,
+                listeners: {
+                    load: function(store, records, successful) {
+                        // TODO create markers
+                        alert(1);
+                    }
+                }
             },
             columns: [
                 {header: 'Name',  dataIndex: 'name'},
@@ -30,11 +36,7 @@ Ext.define('Ext.app.DeviceGrid', {
             ],
             listeners: {
                 itemclick: function (dv, record, item, index, e) {
-                    // TODO optimize me
-                    // TODO long issue
-                    var lat = record.data['lat'];
-                    var lon = record.data['long'];
-                    this.map.refreshMarker(record);
+                    this.map.selectMarker(record);
                 }
             },
             initComponent : function() {
