@@ -64,7 +64,7 @@ Ext.define('Ext.app.MapPanel', {
                 };
                 this.map = new OpenLayers.Map(this.body.dom, options);
                 var planeStyleMap = new OpenLayers.StyleMap({
-                            externalGraphic: '/media/img/marker.png',
+                            externalGraphic: '/media/img/markers/std_marker.png',
                             graphicWidth: 21,
                             graphicHeight: 25,
                             fillOpacity: 1,

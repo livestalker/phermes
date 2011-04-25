@@ -4,3 +4,4 @@ pHermes - OpenSource GPS tracking system.
 GPS server written in erlang.
 WebApp: Django + ExtJS.
 All documentation is on https://github.com/LiveStalker/pHermes/wiki.
+Forum: http://sleju.ru/forum/

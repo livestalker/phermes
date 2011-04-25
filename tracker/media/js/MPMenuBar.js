@@ -32,7 +32,7 @@ Ext.define('Ext.app.MPMenuBar', {
                             },
                             // TODO form for features request
                             {
-                                text: 'Features & Bugs request',
+                                text: 'Features request & Bugs report',
                                 href: 'https://github.com/LiveStalker/phermes/issues',
                                 iconCls: 'bug'
                             },

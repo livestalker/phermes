@@ -15,6 +15,32 @@ Ext.define('Ext.app.DeviceGrid', {
             autoScroll: true,
             columnLines: true,
             map: undefined,
+            bbar: [
+                {
+                    xtype: 'button',
+                    text: 'Add',
+                    title: 'Add new device',
+                    iconCls: 'source',
+                    handler: function() {
+                        var win = Ext.widget('adddevicewindow', {
+                                    title: 'Add new device'                                    
+                                });
+                        win.show();
+                    }
+                },
+                {
+                    xtype: 'button',
+                    text: 'Edit',
+                    title: 'Edit device parameters',
+                    iconCls: 'source'
+                },
+                {
+                    xtype: 'button',
+                    text: 'Delete',
+                    title: 'Delete device',
+                    iconCls: 'source'
+                }
+            ],
             viewConfig: {
                 stripeRows: true
             },
