@@ -17,3 +17,12 @@
 .logout {
     background-image:url(/media/img/logout.png) !important;
 }
+.add {
+    background-image:url(/media/img/add.png) !important;
+}
+.edit {
+    background-image:url(/media/img/edit.png) !important;
+}
+.del {
+    background-image:url(/media/img/del.png) !important;
+}

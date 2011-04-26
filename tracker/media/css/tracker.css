@@ -8,3 +8,7 @@ div.olControlAttribution {
 div.olControlAttribution:hover {
     opacity: 1;
 }
+
+.bg-std {
+    background-color: #DFE8F6;
+}

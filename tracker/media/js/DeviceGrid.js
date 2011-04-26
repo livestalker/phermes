@@ -20,7 +20,7 @@ Ext.define('Ext.app.DeviceGrid', {
                     xtype: 'button',
                     text: 'Add',
                     title: 'Add new device',
-                    iconCls: 'source',
+                    iconCls: 'add',
                     handler: function() {
                         var win = Ext.widget('adddevicewindow', {
                                     title: 'Add new device'                                    
@@ -32,13 +32,13 @@ Ext.define('Ext.app.DeviceGrid', {
                     xtype: 'button',
                     text: 'Edit',
                     title: 'Edit device parameters',
-                    iconCls: 'source'
+                    iconCls: 'edit'
                 },
                 {
                     xtype: 'button',
                     text: 'Delete',
                     title: 'Delete device',
-                    iconCls: 'source'
+                    iconCls: 'del'
                 }
             ],
             viewConfig: {
