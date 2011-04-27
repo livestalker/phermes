@@ -6,13 +6,13 @@ Ext.define('Ext.app.MPMenuBar', {
             enableOverflow: true,
             items: [
                 // FIXME bug with url
+                '->',
                 {
                     text: 'Logout',
                     href: '/logout/',
                     tooltip: 'Logout from system',
                     iconCls: 'logout'
                 },
-                '->',
                 {
                     text: 'Help',
                     iconCls: 'help',

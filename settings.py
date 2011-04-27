@@ -76,7 +76,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
@@ -106,8 +106,8 @@ INSTALLED_APPS = (
 
 STATICFILES_DIRS = (
     os.path.join(SITE_ROOT, 'tracker/media'),
-    #'C:/Python27/Lib/site-packages/django/contrib/admin/media',
-    '/usr/local/lib/python2.6/dist-packages/django/contrib/admin/media',
+    'C:/Python27/Lib/site-packages/django/contrib/admin/media',
+    #'/usr/local/lib/python2.6/dist-packages/django/contrib/admin/media',
 )
 
 STATIC_URL = '/media/'

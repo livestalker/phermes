@@ -22,9 +22,7 @@ Ext.define('Ext.app.DeviceGrid', {
                     title: 'Add new device',
                     iconCls: 'add',
                     handler: function() {
-                        var win = Ext.widget('adddevicewindow', {
-                                    title: 'Add new device'                                    
-                                });
+                        var win = Ext.widget('adddevicewindow', {});
                         win.show();
                     }
                 },
@@ -32,7 +30,19 @@ Ext.define('Ext.app.DeviceGrid', {
                     xtype: 'button',
                     text: 'Edit',
                     title: 'Edit device parameters',
-                    iconCls: 'edit'
+                    iconCls: 'edit',
+                    handler: function() {
+                        var grid = this.up('panel');
+                        var records = grid.getSelectionModel().getSelection();
+                        if (records.length > 0) {
+                            var win = Ext.widget('editdevicewindow', {});
+                            var form = win.getForm();
+                            form.loadRecord(records[0]);
+                            win.show();                           
+                        }
+                        else
+                            Ext.Msg.alert('Error!', 'Please select device.');
+                    }
                 },
                 {
                     xtype: 'button',
