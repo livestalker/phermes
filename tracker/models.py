@@ -42,11 +42,13 @@ class Track(models.Model):
 # height    - height of marker
 # width     - width of marker
 # url       - relative/absolute url of marker
+# name      - name
 class MapMarker(models.Model):
     marker_id = models.AutoField(primary_key=True)
     width = models.IntegerField()
     height = models.IntegerField()
     url = models.CharField(max_length=200)
+    name = models.CharField(max_length=15)
 
     def __unicode__(self):
-        return self.url
+        return self.name

@@ -4,6 +4,7 @@ from django.contrib import auth
 from django.shortcuts import render_to_response
 from django.utils.simplejson.encoder import JSONEncoder
 from phermes.tracker.models import Device
+from phermes.tracker.models import MapMarker
 
 # account functions
 def index(request):
@@ -91,6 +92,19 @@ def del_device(request):
     else:
         if request.method == 'POST' and request.is_ajax():
             # TODO del functional
+            return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
+        else:
+            return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
+
+# tracker AJAX functions: load marker list
+def list_markers(request):
+    json = []
+    if not request.user.is_authenticated():
+        return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
+    else:
+        if request.method == 'POST' and request.is_ajax():
+            for m in MapMarker.objects.all():
+                json.append({'marker_id' : m.marker_id, 'width' : m.width, 'height' : m.height, 'url' : m.url, 'name' : m.name})
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
         else:
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')

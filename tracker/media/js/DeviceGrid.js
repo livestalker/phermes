@@ -15,6 +15,34 @@ Ext.define('Ext.app.DeviceGrid', {
             autoScroll: true,
             columnLines: true,
             map: undefined,
+            initComponent : function() {
+                // TODO Redifine model when using MVC
+                Ext.define('Marker', {
+                            extend: 'Ext.data.Model',
+                            fields: [
+                                {type: 'int', name: 'marker_id'},
+                                {type: 'int', name: 'width', defaultValue: 16},
+                                {type: 'int', name: 'height', defaultValue: 16},
+                                {type: 'string', name: 'url'},
+                                {type: 'string', name: 'name'}
+                            ]
+                        });
+                this.markerStore = new Ext.data.Store({
+                            model: 'Marker',
+                            proxy: {
+                                type: 'ajax',
+                                url : '/listmarkers/',
+                                actionMethods: {
+                                    create : 'POST',
+                                    read   : 'POST',
+                                    update : 'POST',
+                                    destroy: 'POST'
+                                }
+                            }
+                        });
+                this.markerStore.load();
+                this.callParent();
+            },
             bbar: [
                 {
                     xtype: 'button',
@@ -22,7 +50,9 @@ Ext.define('Ext.app.DeviceGrid', {
                     title: 'Add new device',
                     iconCls: 'add',
                     handler: function() {
+                        var grid = this.up('panel');
                         var win = Ext.widget('adddevicewindow', {});
+                        win.getMarkerComboBox().setData(grid.markerStore.data);
                         win.show();
                     }
                 },
@@ -36,9 +66,12 @@ Ext.define('Ext.app.DeviceGrid', {
                         var records = grid.getSelectionModel().getSelection();
                         if (records.length > 0) {
                             var win = Ext.widget('editdevicewindow', {});
+                            var grid = this.up('panel');
                             var form = win.getForm();
                             form.loadRecord(records[0]);
-                            win.show();                           
+                            win.getMarkerComboBox().setData(grid.markerStore.data);
+                            // TODO select current marker
+                            win.show();
                         }
                         else
                             Ext.Msg.alert('Error!', 'Please select device.');
@@ -86,12 +119,6 @@ Ext.define('Ext.app.DeviceGrid', {
                 itemclick: function (dv, record, item, index, e) {
                     this.map.selectMarker(record);
                 }
-            },
-            /**
-             * Init DeviceGrid component
-             */
-            initComponent : function() {
-                this.callParent();
             },
             /**
              * Fires after the component rendering is finished.

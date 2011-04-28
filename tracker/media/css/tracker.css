@@ -1,4 +1,3 @@
-
 div.olControlAttribution {
     bottom: 3px;
     left: 3px;
@@ -11,4 +10,9 @@ div.olControlAttribution:hover {
 
 .bg-std {
     background-color: #DFE8F6;
+}
+
+.x-icon-combo-icon {
+    background-repeat: no-repeat;
+    background-position: 0 50%;
 }

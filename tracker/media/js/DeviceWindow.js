@@ -19,6 +19,7 @@ Ext.define('Ext.app.DeviceWindow', {
             items: [
                 {
                     xtype: 'form',
+                    itemId: 'form',
                     bodyPadding : 10,
                     border: 0,
                     bodyCls: 'bg-std',
@@ -54,7 +55,8 @@ Ext.define('Ext.app.DeviceWindow', {
                         },
                         {
                             // TODO marker select
-                            xtype : 'textfield',
+                            xtype : 'markercombobox',
+                            itemId: 'markercombobox',
                             name : 'marker',
                             fieldLabel : 'Marker',
                             allowBlank : true,
@@ -93,5 +95,9 @@ Ext.define('Ext.app.DeviceWindow', {
                         this.up('window').close();
                     }
                 }
-            ]
+            ],
+            getMarkerComboBox: function() {
+                // TODO optimize me
+                return this.getComponent('form').getComponent('markercombobox');
+            }
         });
