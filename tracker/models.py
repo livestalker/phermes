@@ -17,14 +17,15 @@ from django.db import models
 class Device(models.Model):
     device_id = models.AutoField(primary_key=True, verbose_name='ID')
     user_id = models.ForeignKey(User, db_column='user_id', verbose_name='user ID')
-    marker_id = models.ForeignKey('MapMarker', db_column='marker_id')
-    type = models.CharField(max_length=30)
-    imei = models.CharField(max_length=30, verbose_name='IMEI')
+    marker_id = models.ForeignKey('MapMarker', db_column='marker_id', blank=True, null=True)
+    # TODO type of devices
+    type = models.CharField(max_length=30, default='device')
+    imei = models.CharField(max_length=30, verbose_name='IMEI', unique=True)
     name = models.CharField(max_length=30)
     text = models.CharField(max_length=255)
-    long = models.DecimalField(verbose_name='longitude', max_digits=10, decimal_places=6)
-    lat = models.DecimalField(verbose_name='latitude', max_digits=10, decimal_places=6)
-    ts_time = models.DateTimeField(verbose_name='last time request')
+    long = models.DecimalField(verbose_name='longitude', max_digits=10, decimal_places=6, default=0)
+    lat = models.DecimalField(verbose_name='latitude', max_digits=10, decimal_places=6, default=0)
+    ts_time = models.DateTimeField(verbose_name='last time request', auto_now_add=True)
 
 # history of move object
 # device_id - ID device

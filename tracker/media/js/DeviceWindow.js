@@ -16,6 +16,7 @@ Ext.define('Ext.app.DeviceWindow', {
             layout: 'fit',
             modal: true,
             resizable: false,
+            deviceStore: undefined,
             items: [
                 {
                     xtype: 'form',
@@ -36,31 +37,26 @@ Ext.define('Ext.app.DeviceWindow', {
                             xtype : 'textfield',
                             name : 'imei',
                             fieldLabel : 'IMEI',
-                            allowBlank : false,
-                            minLength : 30
+                            allowBlank : false
                         },
                         {
                             xtype : 'textfield',
                             name : 'name',
                             fieldLabel : 'Short name',
-                            allowBlank : false,
-                            minLength : 10
+                            allowBlank : false
                         },
                         {
                             xtype : 'textfield',
                             name : 'text',
                             fieldLabel : 'Description',
-                            allowBlank : false,
-                            minLength : 30
+                            allowBlank : false
                         },
                         {
-                            // TODO marker select
                             xtype : 'markercombobox',
                             itemId: 'markercombobox',
-                            name : 'marker',
+                            name : 'marker_id',
                             fieldLabel : 'Marker',
-                            allowBlank : true,
-                            minLength : 30
+                            allowBlank : true
                         }
                     ]
                 }
@@ -69,21 +65,23 @@ Ext.define('Ext.app.DeviceWindow', {
                 {
                     text: 'OK',
                     handler: function() {
-                        // TODO add ok code
-                        var form = this.up('window').down('form').getForm();
+                        var win = this.up('window');
+                        var form = win.down('form').getForm();
                         form.submit({
-                                    clientValidation : true,
-                                    url : '/adddevice/',
+                                    // TODO client validation?
+                                    //clientValidation : true,
+                                    url : win.actionUrl,
                                     success : function(form, action) {
-                                        // TODO action after device added
-                                        this.up('window').close();
+                                        if (win.deviceStore)
+                                            win.deviceStore.load();
+                                        win.close();
                                     },
                                     failure : function(form, action) {
                                         if (action.failureType == 'server') {
                                             obj = Ext.JSON.decode(action.response.responseText);
                                             Ext.Msg.alert('Error!', obj.errors.reason);
                                         } else {
-                                            Ext.Msg.alert('Warning!', 'Server is unreachable : ' + action.response.responseText);
+                                            Ext.Msg.alert('Warning!', 'Server is unreachable.');
                                         }
                                     }
                                 });

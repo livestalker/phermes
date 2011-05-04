@@ -7,13 +7,21 @@
  * @constructor
  * @param {Object} config The config object
  */
-Ext.define('Ext.app.AddDeviceWindow', {
+Ext.define('Ext.app.EditDeviceWindow', {
             extend: 'Ext.app.DeviceWindow',
             alias: 'widget.editdevicewindow',
 
-            title: 'Edit device parameters',
-
+            title: 'Edit device options',
+            actionUrl: '/editdevice/',
+            initComponent : function() {
+                this.callParent();
+                // Add hide field for device_id
+                this.getForm().add([{
+                    xtype : 'hiddenfield',
+                    name : 'device_id'
+                }]);
+            },
             getForm: function() {
-                return this.down('form').getForm();
+                return this.down('form');
             }
         });

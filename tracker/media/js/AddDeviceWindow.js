@@ -7,9 +7,12 @@
  * @constructor
  * @param {Object} config The config object
  */
+
 Ext.define('Ext.app.AddDeviceWindow', {
             extend: 'Ext.app.DeviceWindow',
             alias: 'widget.adddevicewindow',
 
-            title: 'Add new device'
+            title: 'Add device',
+            actionUrl: '/adddevice/'
+
         });

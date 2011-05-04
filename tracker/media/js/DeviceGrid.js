@@ -47,11 +47,10 @@ Ext.define('Ext.app.DeviceGrid', {
                 {
                     xtype: 'button',
                     text: 'Add',
-                    title: 'Add new device',
                     iconCls: 'add',
                     handler: function() {
                         var grid = this.up('panel');
-                        var win = Ext.widget('adddevicewindow', {});
+                        var win = Ext.widget('adddevicewindow', {deviceStore: grid.store});
                         win.getMarkerComboBox().setData(grid.markerStore.data);
                         win.show();
                     }
@@ -59,18 +58,16 @@ Ext.define('Ext.app.DeviceGrid', {
                 {
                     xtype: 'button',
                     text: 'Edit',
-                    title: 'Edit device parameters',
                     iconCls: 'edit',
                     handler: function() {
                         var grid = this.up('panel');
                         var records = grid.getSelectionModel().getSelection();
                         if (records.length > 0) {
-                            var win = Ext.widget('editdevicewindow', {});
+                            var win = Ext.widget('editdevicewindow', {deviceStore: grid.store});
                             var grid = this.up('panel');
                             var form = win.getForm();
-                            form.loadRecord(records[0]);
                             win.getMarkerComboBox().setData(grid.markerStore.data);
-                            // TODO select current marker
+                            form.loadRecord(records[0]);
                             win.show();
                         }
                         else
@@ -80,7 +77,6 @@ Ext.define('Ext.app.DeviceGrid', {
                 {
                     xtype: 'button',
                     text: 'Delete',
-                    title: 'Delete device',
                     iconCls: 'del'
                 }
             ],
@@ -89,7 +85,7 @@ Ext.define('Ext.app.DeviceGrid', {
             },
             store: {
                 // TODO long issue
-                fields: ['device_id', 'imei', 'name', 'text', 'long', 'lat', 'ts_time'],
+                fields: ['device_id', 'marker_id', 'imei', 'name', 'text', 'long', 'lat', 'ts_time'],
                 proxy: {
                     type: 'ajax',
                     actionMethods: {

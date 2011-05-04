@@ -1,3 +1,12 @@
+/**
+ * @class Ext.app.RegisterForm
+ * @extends Ext.form.FormPanel
+ *
+ Class for display register form
+
+ * @constructor
+ * @param {Object} config The config object
+ */
 Ext.define('Ext.app.RegisterForm', {
     extend: 'Ext.form.FormPanel',
     alias: 'widget.registerform',

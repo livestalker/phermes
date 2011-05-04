@@ -1,3 +1,12 @@
+/**
+ * @class Ext.app.FormErrorState
+ * @extends Ext.container.Container
+ *
+ Class for display errors in form.
+
+ * @constructor
+ * @param {Object} config The config object
+ */
 Ext.define('Ext.app.FormErrorState', {
     extend: 'Ext.container.Container',
     alias: 'widget.formerrorstate',

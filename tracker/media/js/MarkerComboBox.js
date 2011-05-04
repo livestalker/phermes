@@ -2,7 +2,7 @@
  * @class Ext.app.MarkerComboBox
  * @extends Ext.form.field.ComboBox
  *
- Class for display and work with tracker devices.
+ Class for display and work with map markers.
 
  * @constructor
  * @param {Object} config The config object
@@ -14,7 +14,9 @@ Ext.define('Ext.app.MarkerComboBox', {
 
             fieldLabel: 'Marker',
             displayField: 'name',
+            valueField: 'marker_id',
             queryMode: 'local',
+            editable: false,
             initComponent : function() {
                 var defConfig = {
                     store: {
@@ -34,7 +36,6 @@ Ext.define('Ext.app.MarkerComboBox', {
                             + '<td>{name} - {width}x{height}</td>'
                             + '</tr></tbody></table>'
                             + '</div>'
-                    //return '<div data-qtip="{name}. {slogan}">{name} ({abbr})</div>';
                     return tpl;
                 }
             },

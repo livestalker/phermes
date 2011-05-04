@@ -1,3 +1,12 @@
+/**
+ * @class Ext.app.MPMenuBar
+ * @extends Ext.toolbar.Toolbar
+ *
+ Class for display menu bar
+
+ * @constructor
+ * @param {Object} config The config object
+ */
 Ext.define('Ext.app.MPMenuBar', {
             extend: 'Ext.toolbar.Toolbar',
             alias: 'widget.mpmenubar',

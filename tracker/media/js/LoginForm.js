@@ -1,3 +1,12 @@
+/**
+ * @class Ext.app.LoginForm
+ * @extends Ext.form.FormPanel
+ *
+ Class for display login form
+
+ * @constructor
+ * @param {Object} config The config object
+ */
 Ext.define('Ext.app.LoginForm', {
 	extend : 'Ext.form.FormPanel',
 	alias : 'widget.loginform',
