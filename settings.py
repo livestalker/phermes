@@ -106,8 +106,8 @@ INSTALLED_APPS = (
 
 STATICFILES_DIRS = (
     os.path.join(SITE_ROOT, 'tracker/media'),
-    'C:/Python27/Lib/site-packages/django/contrib/admin/media',
-    #'/usr/local/lib/python2.6/dist-packages/django/contrib/admin/media',
+    #'C:/Python27/Lib/site-packages/django/contrib/admin/media',
+    '/usr/local/lib/python2.6/dist-packages/django/contrib/admin/media',
 )
 
 STATIC_URL = '/media/'
