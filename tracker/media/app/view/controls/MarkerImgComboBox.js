@@ -20,7 +20,7 @@ Ext.define('Tracker.view.controls.MarkerImgComboBox', {
     initComponent : function() {
         var defConfig = {
             store: {
-                model: 'Marker',
+                model: 'Tracker.model.MarkerImg',
                 data: []
             }
         };

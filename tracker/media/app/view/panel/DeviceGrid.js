@@ -23,40 +23,19 @@ Ext.define('Tracker.view.panel.DeviceGrid', {
         xtype: 'button',
         text: 'Add',
         iconCls: 'add',
-        handler: function() {
-            var grid = this.up('panel');
-            var win = Ext.widget('adddevicewindow', {
-                deviceStore: grid.store
-            });
-            win.getMarkerComboBox().setData(grid.markerStore.data);
-            win.show();
-        }
+        action: 'add'
     },
     {
         xtype: 'button',
         text: 'Edit',
         iconCls: 'edit',
-        handler: function() {
-            var grid = this.up('panel');
-            var records = grid.getSelectionModel().getSelection();
-            if (records.length > 0) {
-                var win = Ext.widget('editdevicewindow', {
-                    deviceStore: grid.store
-                });
-                var grid = this.up('panel');
-                var form = win.getForm();
-                win.getMarkerComboBox().setData(grid.markerStore.data);
-                form.loadRecord(records[0]);
-                win.show();
-            }
-            else
-                Ext.Msg.alert('Error!', 'Please select device.');
-        }
+        action: 'edit'
     },
     {
         xtype: 'button',
         text: 'Delete',
-        iconCls: 'del'
+        iconCls: 'del',
+        action: 'delete'
     }
     ],
     viewConfig: {

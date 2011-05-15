@@ -99,8 +99,8 @@ Ext.define('Tracker.view.window.DeviceWindow', {
         }
     }
     ],
-    getMarkerComboBox: function() {
+    getMarkerImgComboBox: function() {
         // TODO optimize me
-        return this.getComponent('form').getComponent('markercombobox');
+        return this.getComponent('form').getComponent('markerimgcombobox');
     }
 });

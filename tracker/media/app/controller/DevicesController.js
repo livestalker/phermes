@@ -19,6 +19,58 @@ Ext.define('Tracker.controller.DevicesController', {
     
     views: ['panel.DeviceGrid'],
     stores: ['Devices', 'MarkersImg'],
-    models: ['Device', 'MarkerImg']
-    
+    models: ['Device', 'MarkerImg'],
+    refs: [
+    {
+        ref: 'deviceGrid',
+        selector: 'devicegrid'
+    }
+    ],
+    init: function() {
+        this.control({
+            'devicegrid button[action=add]': {
+                click: this.addDevice
+            },
+            'devicegrid button[action=edit]': {
+                click: this.editDevice
+            },
+            'devicegrid button[action=delete]': {
+                click: this.deleteDevice
+            }
+        });
+    },
+    /**
+     * 
+     */
+    addDevice: function() {
+        var win = Ext.widget('adddevicewindow', {
+            deviceStore: this.getDevicesStore()
+        });
+        win.getMarkerComboBox().setData(this.getMarkersImgStore().data);
+        win.show();
+    },
+    /**
+     * 
+     */
+    editDevice: function() {
+        var grid = this.getDeviceGrid();
+        var records = grid.getSelectionModel().getSelection();
+        if (records.length > 0) {
+            var win = Ext.widget('editdevicewindow', {
+                deviceStore: this.getDevicesStore()
+            });
+            var form = win.getForm();
+            win.getMarkerImgComboBox().setData(this.getMarkersImgStore().data);
+            form.loadRecord(records[0]);
+            win.show();
+        }
+        else
+            Ext.Msg.alert('Error!', 'Please select device.');   
+    },
+    /**
+     * 
+     */
+    deleteDevice: function() {
+        
+    }
 });
