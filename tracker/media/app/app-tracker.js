@@ -9,14 +9,15 @@ Ext.Loader.setPath({
 
 Ext.require([
     'Tracker.view.TrackerViewport',
-    'Tracker.controller.DevicesController',
+    'Tracker.controller.DeviceGridController',
+    'Tracker.controller.DeviceGridToolBarController'
     ]);
 
 Ext.application({
     name: 'Tracker',
     appFolder: 'app',
     autoCreateViewport: false,
-    controllers: ['DevicesController'],
+    controllers: ['DeviceGridController', 'DeviceGridToolBarController'],
     launch: function() {
         console.log('App lunch!');
         Ext.create('Tracker.view.TrackerViewport');

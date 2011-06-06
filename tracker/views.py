@@ -3,6 +3,7 @@ from django.core.context_processors import csrf
 from django.contrib import auth
 from django.shortcuts import render_to_response
 from django.utils.simplejson.encoder import JSONEncoder
+import django.utils.simplejson as simplejson
 from phermes.tracker.models import Device
 from phermes.tracker.models import MapMarker
 
@@ -50,14 +51,19 @@ def tracker(request):
 
 # tracker AJAX functions: get list of devices
 def list_devices(request):
-    json = []
+    # TODO change True in success
+    json = {}
+    json['success'] = True
+    json['devices'] = []
     if not request.user.is_authenticated():
         return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
     else:
         if request.method == 'POST' and request.is_ajax():
             for d in Device.objects.filter(user_id=request.user.id):
-                json.append({'device_id': d.device_id, 'marker_id': d.marker_id_id, 'imei': d.imei, 'name': d.name,
-                             'text': d.text, 'long': str(d.long), 'lat': str(d.lat), 'ts_time': str(d.ts_time)})
+                #json['devices'].append({'device_id': d.device_id, 'marker_id': d.marker_id_id, 'imei': d.imei, 'name': d.name,
+                #             'text': d.text, 'long': str(d.long), 'lat': str(d.lat), 'ts_time': str(d.ts_time)})
+                json['devices'].append({'device_id': d.device_id, 'marker_id': d.marker_id_id, 'imei': d.imei, 'name': d.name,
+                             'text': d.text})
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
         else:
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
@@ -65,28 +71,34 @@ def list_devices(request):
 # tracker AJAX functions: add new device
 def add_device(request):
     json = {}
+    json['devices'] = []
     if not request.user.is_authenticated():
         return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
     else:
         if request.method == 'POST' and request.is_ajax():
-            imei = request.POST.get('imei', '')
-            name = request.POST.get('name', '')
-            text = request.POST.get('text', '')
-            marker_id = request.POST.get('marker_id', '')
-            if marker_id:
-                marker = MapMarker.objects.filter(marker_id=marker_id)[0]
-            else:
-                marker = None
-            if len(Device.objects.filter(imei=imei)) > 0:
-                json['success'] = False
-                json['errors'] = {}
-                json['errors']['reason'] = 'Device with this IMEI already exist.'
-            else:
-                device = Device(imei=imei, name=name, text=text, marker_id=marker, user_id=request.user)
-                device.save()
-                json['success'] = True
-                json['test'] = {}
-                json['test']['marker_id'] = marker_id
+            json_request = simplejson.loads(request.raw_post_data)
+            for element in json_request['devices']:
+                if 'marker_id' in element:
+                    marker = MapMarker.objects.filter(marker_id=element['marker_id'])[0]
+                else:
+                    marker = None
+                if len(Device.objects.filter(imei=element['imei'])) > 0:
+                    json['success'] = False
+                    json['errors'] = {}
+                    json['errors']['reason'] = 'Device with this IMEI already exist.'
+                else:
+                    device = Device(imei=element['imei'],
+                                    name=element['name'],
+                                    text=element['text'],
+                                    marker_id=marker,
+                                    user_id=request.user)
+                    device.save()
+                    json['success'] = True
+                    json['devices'].append({'device_id': device.device_id,
+                                            'marker_id': device.marker_id_id,
+                                            'imei': element['imei'],
+                                            'name': element['name'],
+                                            'text': element['text']})
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
         else:
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
@@ -97,31 +109,28 @@ def edit_device(request):
         return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
     else:
         if request.method == 'POST' and request.is_ajax():
-            # TODO Test if fields changed?
-            # Get base parameters of device
+            json_request = simplejson.loads(request.raw_post_data)
             json = {'success' : False}
-            imei = request.POST.get('imei', '')
-            name = request.POST.get('name', '')
-            text = request.POST.get('text', '')
-            device_id = request.POST.get('device_id', '')
-            # Get device from DB
-            # TODO try..catch
-            device = Device.objects.get(device_id=device_id, user_id=request.user)
-            device.imei = imei
-            device.name = name
-            device.text = text
-            # Get marker map parameter
-            marker_id = request.POST.get('marker_id', '')
-            if marker_id:
-                marker = MapMarker.objects.get(marker_id=marker_id)
-                device.marker_id = marker
-            try:
-                # Save device in DB
-                device.save();
-                json['success'] = True
-            except:
-                json['errors'] = {}
-                json['errors']['reason'] = 'Error'
+            json['devices'] = []
+            for element in json_request['devices']:
+                device = Device.objects.get(device_id=element['device_id'], user_id=request.user)
+                device.name = element['name']
+                device.text = element['text']
+                if 'marker_id' in element:
+                    marker = MapMarker.objects.get(marker_id=element['marker_id'])
+                    device.marker_id = marker
+                    try:
+                        # Save device in DB
+                        device.save();
+                        json['success'] = True
+                        json['devices'].append({'device_id': device.device_id,
+                                                'marker_id': device.marker_id_id,
+                                                'imei': element['imei'],
+                                                'name': element['name'],
+                                                'text': element['text']})
+                    except:
+                        json['errors'] = {}
+                        json['errors']['reason'] = 'Error'
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
         else:
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
@@ -148,6 +157,21 @@ def list_markers(request):
             for m in MapMarker.objects.all():
                 json.append(
                         {'marker_id': m.marker_id, 'width': m.width, 'height': m.height, 'url': m.url, 'name': m.name})
+            return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
+        else:
+            return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
+
+def current_geo(request):
+    json = {'success': False}
+    if not request.user.is_authenticated():
+        return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
+    else:
+        if request.method == 'POST' and request.is_ajax():
+            json['currentgeos'] = []
+            for d in Device.objects.filter(user_id=request.user.id):
+                cg = d.current_geo
+                json['currentgeos'].append({'device_id': cg.id, 'lat': str(cg.lat), 'lng': str(cg.lng)})
+            json['success'] = True
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
         else:
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')

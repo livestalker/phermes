@@ -10,6 +10,7 @@ from django.db import models
 # imei      - IMEI
 # name      - name of object
 # text      - description
+#---deleted
 # longitude - long
 # latitude  - lat
 # ts_time   - last time of request
@@ -19,13 +20,11 @@ class Device(models.Model):
     user_id = models.ForeignKey(User, db_column='user_id', verbose_name='user ID')
     marker_id = models.ForeignKey('MapMarker', db_column='marker_id', blank=True, null=True)
     # TODO type of devices
-    type = models.CharField(max_length=30, default='device')
+    type = models.CharField(max_length=30)
     imei = models.CharField(max_length=30, verbose_name='IMEI', unique=True)
     name = models.CharField(max_length=30)
     text = models.CharField(max_length=255)
-    long = models.DecimalField(verbose_name='longitude', max_digits=10, decimal_places=6, default=0)
-    lat = models.DecimalField(verbose_name='latitude', max_digits=10, decimal_places=6, default=0)
-    ts_time = models.DateTimeField(verbose_name='last time request', auto_now_add=True)
+    current_geo = models.OneToOneField('CurrentGeo', blank=True, null=True)
 
 # history of move object
 # device_id - ID device
@@ -53,3 +52,11 @@ class MapMarker(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class CurrentGeo(models.Model):
+    lng = models.DecimalField(verbose_name='longitude', max_digits=10, decimal_places=6, default=0)
+    lat = models.DecimalField(verbose_name='latitude', max_digits=10, decimal_places=6, default=0)
+    ts_time = models.DateTimeField(verbose_name='last time request')
+    class Meta:
+        verbose_name_plural = 'Current Geo'

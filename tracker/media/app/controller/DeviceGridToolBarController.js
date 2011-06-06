@@ -11,19 +11,23 @@ Ext.require([
     'Tracker.store.Devices',
     'Tracker.store.MarkersImg',
     'Tracker.model.Device',
-    'Tracker.model.MarkerImg'
+    'Tracker.model.MarkerImg',
     ]);
 
-Ext.define('Tracker.controller.DevicesController', {
+Ext.define('Tracker.controller.DeviceGridToolBarController', {
     extend: 'Ext.app.Controller',
     
-    views: ['panel.DeviceGrid'],
+    views: ['panel.DeviceGrid', 'window.DeviceWindow'],
     stores: ['Devices', 'MarkersImg'],
     models: ['Device', 'MarkerImg'],
     refs: [
     {
         ref: 'deviceGrid',
         selector: 'devicegrid'
+    },
+    {
+        ref: 'deviceWindow',
+        selector: 'devicewindow'
     }
     ],
     init: function() {
@@ -36,6 +40,12 @@ Ext.define('Tracker.controller.DevicesController', {
             },
             'devicegrid button[action=delete]': {
                 click: this.deleteDevice
+            },
+            'devicewindow button[action=save]': {
+                click: this.saveDevice
+            },
+            'devicewindow button[action=cancel]': {
+                click: this.cancelSave  
             }
         });
     },
@@ -43,10 +53,11 @@ Ext.define('Tracker.controller.DevicesController', {
      * 
      */
     addDevice: function() {
-        var win = Ext.widget('adddevicewindow', {
-            deviceStore: this.getDevicesStore()
+        var win = Ext.widget('devicewindow', {
+            title: 'Add device',
+            action: 'add'
         });
-        win.getMarkerComboBox().setData(this.getMarkersImgStore().data);
+        win.getMarkerImgComboBox().setData(this.getMarkersImgStore().data);
         win.show();
     },
     /**
@@ -56,8 +67,9 @@ Ext.define('Tracker.controller.DevicesController', {
         var grid = this.getDeviceGrid();
         var records = grid.getSelectionModel().getSelection();
         if (records.length > 0) {
-            var win = Ext.widget('editdevicewindow', {
-                deviceStore: this.getDevicesStore()
+            var win = Ext.widget('devicewindow', {
+                title: 'Edit device options',
+                action: 'edit'
             });
             var form = win.getForm();
             win.getMarkerImgComboBox().setData(this.getMarkersImgStore().data);
@@ -72,5 +84,24 @@ Ext.define('Tracker.controller.DevicesController', {
      */
     deleteDevice: function() {
         
+    },
+    /**
+     * Save new Device or save changes
+     */
+    saveDevice: function() {
+        var win = this.getDeviceWindow(),
+        form = win.getForm(),
+        record = form.getRecord(),        
+        values = form.getValues();
+        if (win.action == 'edit')
+            record.set(values);
+        else
+            this.getDevicesStore().add(values);
+        win.close();
+        this.getDevicesStore().sync();
+    },
+    cancelSave: function() {
+        var win = this.getDeviceWindow();
+        win.close();
     }
 });

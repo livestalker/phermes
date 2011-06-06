@@ -11,6 +11,5 @@ Ext.define('Tracker.store.MarkersImg', {
             update : 'POST',
             destroy: 'POST'
         }
-    },
-    autoLoad: true
+    }
 });

@@ -16,7 +16,9 @@ Ext.require([
 Ext.define('Tracker.view.map.MapPanel', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.mappanel',
-
+    
+    itemId: 'mappanel',
+    border: false,
     bodyPadding: 10,
     map: undefined,
     devicesMarkers: {},

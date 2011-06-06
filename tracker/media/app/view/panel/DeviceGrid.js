@@ -11,6 +11,7 @@ Ext.define('Tracker.view.panel.DeviceGrid', {
     extend: 'Ext.grid.Panel',
     alias: 'widget.devicegrid',
 
+    itemId: 'devicegrid',
     title: 'Tracked objects',
     autoScroll: true,
     columnLines: true,
@@ -68,7 +69,7 @@ Ext.define('Tracker.view.panel.DeviceGrid', {
                  * @param {Ext.EventObject} e
                  */
         itemclick: function (dv, record, item, index, e) {
-            this.map.selectMarker(record);
+            //this.map.selectMarker(record);
         }
     },
     /**
@@ -79,7 +80,7 @@ Ext.define('Tracker.view.panel.DeviceGrid', {
         // Get map pointer
         this.map = this.ownerCt.ownerCt.getComponent('mappanel');
         // Set event listener 'on load' for data store
-        this.store.on('load', this.loadStore, this);
+        //this.store.on('load', this.loadStore, this);
     },
     /**
              * Fires after data loaded into store
@@ -88,10 +89,10 @@ Ext.define('Tracker.view.panel.DeviceGrid', {
              * @param {Boolean} successful
              */
     loadStore: function(store, records, successful) {
-        if (successful)
+        //if (successful)
             // For every record(device) create marker on map
-            for (index in records)
-                this.map.refreshMarker(records[index]);
+            //for (index in records)
+            //    this.map.refreshMarker(records[index]);
     }
 }
 );

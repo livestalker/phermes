@@ -1,5 +1,6 @@
 Ext.define('Tracker.model.MarkerImg', {
     extend: 'Ext.data.Model',
+    idProperty: 'marker_id',
     fields: [
     {
         type: 'int', 
@@ -26,6 +27,5 @@ Ext.define('Tracker.model.MarkerImg', {
     {
         type: 'string', 
         name: 'name'
-    }
-    ]
+    }]
 });

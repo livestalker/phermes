@@ -15,7 +15,16 @@ Ext.require([
 Ext.define('Tracker.view.window.DeviceWindow', {
     extend: 'Ext.window.Window',
     alias: 'widget.devicewindow',
-
+    initComponent : function() {
+        this.callParent();
+        if (this.action == 'edit'){
+            // Add hide field for device_id
+            this.getForm().add([{
+                xtype : 'hiddenfield',
+                name : 'device_id'
+            }]);
+        }
+    },
     height: 200,
     width: 400,
     layout: 'fit',
@@ -68,39 +77,19 @@ Ext.define('Tracker.view.window.DeviceWindow', {
     ],
     buttons: [
     {
-        text: 'OK',
-        handler: function() {
-            var win = this.up('window');
-            var form = win.down('form').getForm();
-            form.submit({
-                // TODO client validation?
-                //clientValidation : true,
-                url : win.actionUrl,
-                success : function(form, action) {
-                    if (win.deviceStore)
-                        win.deviceStore.load();
-                    win.close();
-                },
-                failure : function(form, action) {
-                    if (action.failureType == 'server') {
-                        obj = Ext.JSON.decode(action.response.responseText);
-                        Ext.Msg.alert('Error!', obj.errors.reason);
-                    } else {
-                        Ext.Msg.alert('Warning!', 'Server is unreachable.');
-                    }
-                }
-            });
-        }
+        text: 'Save',
+        action: 'save'
     },
     {
         text: 'Cancel',
-        handler: function() {
-            this.up('window').close();
-        }
+        action: 'cancel'
     }
     ],
     getMarkerImgComboBox: function() {
         // TODO optimize me
         return this.getComponent('form').getComponent('markerimgcombobox');
+    },
+    getForm: function() {
+        return this.down('form');
     }
 });

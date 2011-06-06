@@ -8,6 +8,7 @@ from phermes.tracker.views import add_device
 from phermes.tracker.views import edit_device
 from phermes.tracker.views import del_device
 from phermes.tracker.views import list_markers
+from phermes.tracker.views import current_geo
 
 urlpatterns = patterns('',
     # index
@@ -15,7 +16,7 @@ urlpatterns = patterns('',
 
     # tracker accounts urls
     (r'^logout/$', logout),     # exit from system
-    
+
     # tracker main urls
     (r'^tracker/$', tracker),           # main window of application
 
@@ -27,4 +28,5 @@ urlpatterns = patterns('',
     (r'^editdevice/$',  edit_device),          # edit info about device
     (r'^deldevice/$',   del_device),           # del info device
     (r'^listmarkers/$', list_markers),         # get list of devices
+    (r'^currentgeo/$', current_geo),           # get current geo info
 )

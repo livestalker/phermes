@@ -42,22 +42,22 @@ a:hover {
 #start-div p {
     margin: 10px 0;
 }
-#details-panel h2 {
+#infopanel h2 {
     padding:10px 10px 0;
     font-size:12px;
     color:#15428B;
 }
-#details-panel p {
+#infopanel p {
     padding:10px 10px 0;
 }
-#details-panel pre {
+#infopanel pre {
     border-top:1px dotted #ddd;
     border-bottom:1px dotted #ddd;
     margin-top:10px;
     padding:0 5px;
     background:#f5f5f5;
 }
-#details-panel .details-info {
+#infopanel .details-info {
     margin:15px;
     padding:15px;
     border:1px dotted #999;

@@ -1,8 +1,8 @@
 Ext.require([
     'Tracker.view.map.MapPanel',
     'Tracker.view.panel.DeviceGrid',
-    'Tracker.view.window.AddDeviceWindow',
-    'Tracker.view.window.EditDeviceWindow'
+    'Tracker.view.panel.InfoPanel',
+    'Tracker.view.window.DeviceWindow'    
     ]);
 
 Ext.define('Tracker.view.TrackerViewport', {
@@ -14,9 +14,7 @@ Ext.define('Tracker.view.TrackerViewport', {
     },
     items: [{
         region: 'center',
-        xtype: 'mappanel',
-        itemId: 'mappanel',
-        border: false
+        xtype: 'mappanel'        
     },{
         region: 'east',
         width: 300,
@@ -31,13 +29,11 @@ Ext.define('Tracker.view.TrackerViewport', {
             align: 'stretch'                
         },
         items: [{            
-            xtype: 'devicegrid',
-            itemId: 'devicegrid',
+            xtype: 'devicegrid',            
             flex: 2
         }, {
-            xtype: 'panel',
-            itemId: 'infopanel',
-            flex: 1
+            xtype: 'infopanel',            
+            flex: 3
         }]
     }]
 });
