@@ -1,6 +1,5 @@
 Ext.define('Tracker.store.CurrentGeos', {
     extend : 'Ext.data.Store',
-    alias: 'store.currentgeos',
     
     model: 'Tracker.model.CurrentGeo',
     proxy: {
@@ -11,11 +10,11 @@ Ext.define('Tracker.store.CurrentGeos', {
             read   : 'POST',
             update : 'POST',
             destroy: 'POST'
+        },
+        reader: {
+            type: 'json',
+            root: 'currentgeos',
+            successProperty: 'success'
         }
-    },
-    reader: {
-        type: 'json',
-        root: 'currentgeos',
-        successProperty: 'success'
-    }
+    }    
 });

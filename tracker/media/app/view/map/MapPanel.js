@@ -85,11 +85,12 @@ Ext.define('Tracker.view.map.MapPanel', {
             displayInLayerSwitcher: false,
             styleMap: planeStyleMap
         });
+        this.markerLayer = new OpenLayers.Layer.Markers('Markers');
         var blOptions = {
             eventListeners: {
         }
         };
-        this.map.addLayers([this.baseLayer, this.devicesLayer]);
+        this.map.addLayers([this.baseLayer, this.devicesLayer, this.markerLayer]);
         this.setCenter(37.650417, 55.757276, 5);
     },
     /**
@@ -152,5 +153,11 @@ Ext.define('Tracker.view.map.MapPanel', {
              */
     getDevicesMarkers: function() {
         return this.devicesMarkers;
+    },
+    getMarkerLayer: function() {
+        return this.markerLayer;
+    },
+    createLonLat: function(lng, lat) {
+        return new OpenLayers.LonLat(lng, lat).transform(this.viewProjection, this.map.projection);        
     }
 });

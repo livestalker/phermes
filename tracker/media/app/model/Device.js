@@ -22,5 +22,10 @@ Ext.define('Tracker.model.Device', {
     {
         type: 'string',
         name: 'text'
+    },
+    {
+        type: 'auto',
+        name: 'marker',
+        persist: false
     }]
 });

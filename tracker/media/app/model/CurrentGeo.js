@@ -1,10 +1,10 @@
 Ext.define('Tracker.model.CurrentGeo', {
     extend: 'Ext.data.Model',
-    idProperty: 'id',
+    idProperty: 'device_id',
     fields: [
     {
         type: 'int',
-        name: 'id'
+        name: 'device_id'
     },
     {
         type: 'float',

@@ -1,6 +1,5 @@
 Ext.define('Tracker.store.Devices', {
     extend : 'Ext.data.Store',
-     alias: 'store.devices',
     
     model: 'Tracker.model.Device',    
     proxy: {
