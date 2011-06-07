@@ -1,8 +1,8 @@
 /**
- * @class Tracker.controller.DevicesController
+ * @class Tracker.controller.DeviceGridController
  * @extends Ext.app.Controller
  *
- Controller for handle login and register forms
+ Controller for handle loading stores and device grid
 
  * @constructor
  * @param {Object} config The config object
@@ -30,26 +30,67 @@ Ext.define('Tracker.controller.DeviceGridController', {
     {
         ref: 'mapPanel',
         selector: 'mappanel'
+    },
+    {
+        ref: 'viewport',
+        selector: 'viewport'
     }
     ],
+    /**
+     * Init controller
+     */
     init: function() {
+        // bind event handlers to components
         this.control({
             'devicegrid': {
                 itemclick: this.deviceClick
+            },
+            'viewport': {
+                afterrender: this.startLoad
             }
         });
-        var devices = this.getDevicesStore(),
-        currentGeos = this.getCurrentGeosStore(),
-        markersImg = this.getMarkersImgStore();
-        
-        devices.on('load', this.devicesStoreLoad, this);
-        currentGeos.load();
-        markersImg.load();
-        devices.load();
+        // link events handlers to stores
+        this.getDevicesStore().on('load', this.devicesStoreLoad, this);
+        this.getCurrentGeosStore().on('load', this.currentGeosStoreLoad, this);
+        this.getMarkersImgStore().on('load', this.markersImgStoreLoad, this);        
     },
+    /**
+     * Fire when user click on device grid item
+     */
     deviceClick: function(dv, record, item, index, e) {
-    // TODO select marker on map
+        var marker = record.get('marker');
+        this.getMapPanel().setCenter(marker.lonlat);
     },
+    /**
+     * Start loading stores, fire after viewport rendered
+     */
+    startLoad: function() {
+        this.deviceGridSetMask(true, 'Loading marker images...');
+        this.getMarkersImgStore().load();
+    },
+    /**
+     * Fire when markersImg store loaded
+     */
+    markersImgStoreLoad: function(store, records, successful, operation) {
+        if(successful) {
+            this.deviceGridSetMask(false);
+            this.deviceGridSetMask(true, 'Loading current geo information...');
+            this.getCurrentGeosStore().load();
+        }
+    },
+    /**
+     * Fire when currentGeos store loaded
+     */
+    currentGeosStoreLoad: function(store, records, successful, operation) {
+        if(successful) {
+            this.deviceGridSetMask(false);
+            this.deviceGridSetMask(true, 'Loading devices...');
+            this.getDevicesStore().load();
+        }
+    },
+    /**
+     * Fire when devices store loaded
+     */
     devicesStoreLoad: function(store, records, successful, operation) {
         var currentGeos = this.getCurrentGeosStore(),
         markersImg = this.getMarkersImgStore(),
@@ -64,6 +105,7 @@ Ext.define('Tracker.controller.DeviceGridController', {
         currentGeo = null,
         lonlat = null;
         if(successful) {
+            this.deviceGridSetMask(false);
             for(i in records){
                 device_id = records[i].get('device_id');
                 marker_id = records[i].get('marker_id');
@@ -80,5 +122,15 @@ Ext.define('Tracker.controller.DeviceGridController', {
                 mapPanel.getMarkerLayer().addMarker(marker);
             }
         }
+    },
+    /**
+     * Set/Unset load mask on viewport
+     */
+    deviceGridSetMask: function(setmask, msg){
+        var dg = this.getViewport();
+        if (setmask)
+            dg.setLoading(msg);
+        else
+            dg.setLoading(setmask);
     }
 });
