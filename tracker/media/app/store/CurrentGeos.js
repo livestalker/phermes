@@ -4,7 +4,7 @@ Ext.define('Tracker.store.CurrentGeos', {
     model: 'Tracker.model.CurrentGeo',
     proxy: {
         type: 'ajax',
-        url : '/currentgeo/',
+        url : '/currentgeos/',
         actionMethods: {
             create : 'POST',
             read   : 'POST',

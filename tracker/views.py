@@ -7,6 +7,16 @@ import django.utils.simplejson as simplejson
 from phermes.tracker.models import Device
 from phermes.tracker.models import MapMarker
 
+def createResponseTmp(data_field_name, is_array = False):
+    tmp = {}
+    tmp['success'] = False
+    if(data_field_name):
+        if (is_array):
+            tmp[data_field_name] = []
+        else:
+            tmp[data_field_name] = {}
+    return tmp
+
 # account functions
 def index(request):
     """
@@ -19,15 +29,13 @@ def index(request):
         if request.is_ajax():
             username = request.POST.get('username', '')
             password = request.POST.get('password', '')
-            json = {}
+            json = createResponseTmp('errors')
             user = auth.authenticate(username=username, password=password)
             if user is not None and user.is_active:
                 auth.login(request, user)
                 json['success'] = True
                 return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
             else:
-                json['success'] = False
-                json['errors'] = {}
                 json['errors']['reason'] = 'Login failed. Try again.'
                 return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
     return render_to_response('index.html', c)
@@ -52,9 +60,8 @@ def tracker(request):
 # tracker AJAX functions: get list of devices
 def list_devices(request):
     # TODO change True in success
-    json = {}
+    json = createResponseTmp('devices', True)
     json['success'] = True
-    json['devices'] = []
     if not request.user.is_authenticated():
         return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
     else:
@@ -70,8 +77,7 @@ def list_devices(request):
 
 # tracker AJAX functions: add new device
 def add_device(request):
-    json = {}
-    json['devices'] = []
+    json = createResponseTmp('devices', True)
     if not request.user.is_authenticated():
         return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
     else:
@@ -110,8 +116,7 @@ def edit_device(request):
     else:
         if request.method == 'POST' and request.is_ajax():
             json_request = simplejson.loads(request.raw_post_data)
-            json = {'success' : False}
-            json['devices'] = []
+            json = createResponseTmp('devices', True)
             for element in json_request['devices']:
                 device = Device.objects.get(device_id=element['device_id'], user_id=request.user)
                 device.name = element['name']
@@ -148,26 +153,26 @@ def del_device(request):
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
 
 # tracker AJAX functions: load marker list
-def list_markers(request):
-    json = []
+def list_markersimg(request):
+    json = createResponseTmp('markersimg', True)
     if not request.user.is_authenticated():
         return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
     else:
         if request.method == 'POST' and request.is_ajax():
             for m in MapMarker.objects.all():
-                json.append(
+                json['markersimg'].append(
                         {'marker_id': m.marker_id, 'width': m.width, 'height': m.height, 'url': m.url, 'name': m.name})
+                json['success'] = True
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
         else:
             return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
 
-def current_geo(request):
-    json = {'success': False}
+def current_geos(request):
+    json = createResponseTmp('currentgeos', True)
     if not request.user.is_authenticated():
         return HttpResponse(JSONEncoder().encode(json), mimetype='application/json')
     else:
         if request.method == 'POST' and request.is_ajax():
-            json['currentgeos'] = []
             for d in Device.objects.filter(user_id=request.user.id):
                 cg = d.current_geo
                 json['currentgeos'].append({'device_id': cg.id, 'lat': str(cg.lat), 'lng': str(cg.lng)})

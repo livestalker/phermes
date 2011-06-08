@@ -4,12 +4,17 @@ Ext.define('Tracker.store.MarkersImg', {
     model: 'Tracker.model.MarkerImg',
     proxy: {
         type: 'ajax',
-        url : '/listmarkers/',
+        url : '/listmarkersimg/',
         actionMethods: {
             create : 'POST',
             read   : 'POST',
             update : 'POST',
             destroy: 'POST'
+        },
+        reader: {
+            type: 'json',
+            root: 'markersimg',
+            successProperty: 'success'
         }
     }
 });
